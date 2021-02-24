@@ -5,7 +5,6 @@ import { PeticionesAPIService } from '../servicios/index';
 import { CalculosService } from '../servicios/calculos.service';
 import { Juego, Equipo } from '../clases/index';
 import { Router } from '@angular/router';
-import { JuegoSeleccionadoPage } from '../juego-seleccionado/juego-seleccionado.page';
 import { IonSlides } from '@ionic/angular';
 
 

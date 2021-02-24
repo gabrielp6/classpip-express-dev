@@ -40,8 +40,6 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 // import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer/ngx';
 // import { Transfer } from '@ionic-native/transfer';
 import { Media, MediaObject } from '@ionic-native/media/ngx';
-import { IntercambiarCromosPageModule } from './intercambiar-cromos/intercambiar-cromos.module';
-import { AvatarEditorPageModule } from './avatar-editor/avatar-editor.module';
 import { LongPressModule } from 'ionic-long-press';
 import { IonicGestureConfig } from '../ionicGestureConfig';
 import { WheelSelector } from '@ionic-native/wheel-selector/ngx';
@@ -69,9 +67,7 @@ import {DatePipe} from '@angular/common';
     LongPressModule,
 
 
-    SocketIoModule.forRoot(config),
-    IntercambiarCromosPageModule,
-    AvatarEditorPageModule
+    SocketIoModule.forRoot(config)
 
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
