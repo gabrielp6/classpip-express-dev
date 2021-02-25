@@ -1,9 +1,8 @@
-import { Component, OnInit , ViewChild} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { PeticionesAPIService, SesionService } from '../servicios/index';
-import { CalculosService, ComServerService } from '../servicios';
+import { ComServerService } from '../servicios';
 import { NavController, AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
-import { IonSlides } from '@ionic/angular';
 
 @Component({
   selector: 'app-juego-votacion-rapida',

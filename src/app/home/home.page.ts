@@ -5,8 +5,7 @@ import { PeticionesAPIService, SesionService, ComServerService} from '../servici
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
-  styleUrls: ['home.page.scss'],
-
+  styleUrls: ['home.page.scss']
 })
 
 export class HomePage {
@@ -31,12 +30,10 @@ export class HomePage {
             this.sesion.TomaJuego(juego[0]);
             this.sesion.TomaNickName (this.nickname);
             this.comServer.EnviarNick (juego[0].profesorId, this.nickname);
-            // this.route.navigateByUrl('/tabs/inici');
             this.navCtrl.navigateForward('/juego-cuestionario-satisfaccion');
 
           } else {
             this.peticionesAPI.DameJuegoDeVotacionRapida (this.clave)
-            // tslint:disable-next-line:no-shadowed-variable
             .subscribe (async (juego) => {
               if (juego[0] !== undefined) {
                 console.log ('Ya tengo el juego');
@@ -48,7 +45,6 @@ export class HomePage {
                 this.navCtrl.navigateForward('/juego-votacion-rapida');
               } else {
                   this.peticionesAPI.DameJuegoDeCuestionarioRapido (this.clave)
-                  // tslint:disable-next-line:no-shadowed-variable
                   .subscribe (async (juego) => {
                     if (juego[0] !== undefined) {
                       console.log ('Ya tengo el juego');
@@ -60,7 +56,6 @@ export class HomePage {
                       this.navCtrl.navigateForward('/juego-de-cuestionario');
                       } else {
                         this.peticionesAPI.DameJuegoDeCogerTurnoRapido (this.clave)
-                        // tslint:disable-next-line:no-shadowed-variable
                         .subscribe (async (juego) => {
                           if (juego[0] !== undefined) {
                             console.log ('Ya tengo el juego');

@@ -1,18 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { PeticionesAPIService, SesionService } from '../servicios/index';
-import { CalculosService, ComServerService } from '../servicios';
+import { ComServerService } from '../servicios';
 import { NavController, AlertController, PickerController  } from '@ionic/angular';
 import { CuestionarioSatisfaccion, Alumno, AlumnoJuegoDeCuestionarioSatisfaccion } from '../clases';
 import {MatStepper} from '@angular/material';
 import {PickerOptions} from '@ionic/core';
 import { IonSlides } from '@ionic/angular';
 import { Router } from '@angular/router';
-
-
-
-
-
-
 
 @Component({
   selector: 'app-juego-cuestionario-satisfaccion',

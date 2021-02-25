@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { SesionService, PeticionesAPIService } from '../servicios';
 import { NavController, AlertController, Platform, IonSlides } from '@ionic/angular';
 import { CalculosService, ComServerService } from '../servicios';
-import { Alumno, Juego, TablaAlumnoJuegoDeCuestionario } from '../clases';
+import { Alumno, TablaAlumnoJuegoDeCuestionario } from '../clases';
 import { Cuestionario } from '../clases/Cuestionario';
 import { Pregunta } from '../clases/Pregunta';
 import { AlumnoJuegoDeCuestionario } from '../clases/AlumnoJuegoDeCuestionario';

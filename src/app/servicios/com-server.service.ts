@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
-import { Alumno, AlumnoJuegoDeCompeticionFormulaUno } from '../clases/index';
+import { Alumno } from '../clases/index';
 import { Observable } from 'rxjs';
 
 @Injectable({

@@ -10,7 +10,6 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
-import { IniciPageModule } from './inici/inici.module';
 
 import { Camera } from '@ionic-native/camera/ngx';
 //import { Camera, CameraOptions } from '@ionic-native/camera';
@@ -39,7 +38,7 @@ const config: SocketIoConfig = { url: URL.Servidor, options: {} };
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 // import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer/ngx';
 // import { Transfer } from '@ionic-native/transfer';
-import { Media, MediaObject } from '@ionic-native/media/ngx';
+import { Media } from '@ionic-native/media/ngx';
 import { LongPressModule } from 'ionic-long-press';
 import { IonicGestureConfig } from '../ionicGestureConfig';
 import { WheelSelector } from '@ionic-native/wheel-selector/ngx';
@@ -57,7 +56,6 @@ import {DatePipe} from '@angular/common';
     AppRoutingModule,
     HttpModule,
     HttpClientModule,
-    IniciPageModule,
     MatStepperModule,
     MatFormFieldModule,
     MatInputModule,
@@ -65,8 +63,6 @@ import {DatePipe} from '@angular/common';
     ReactiveFormsModule,
     BrowserAnimationsModule,
     LongPressModule,
-
-
     SocketIoModule.forRoot(config)
 
   ],
