@@ -119,14 +119,14 @@ export class JuegoDeCuestionarioPage implements OnInit {
       .subscribe (res => {
         this.alumnoJuegoDeCuestionario = res[0];
   
-        if (!this.alumnoJuegoDeCuestionario.Contestado) {
+        if (!this.alumnoJuegoDeCuestionario.contestado) {
   
             // Obtenemos el cuestionario a realizar
             this.peticionesAPI.DameCuestionario(this.juegoSeleccionado.cuestionarioId)
             // tslint:disable-next-line:no-shadowed-variable
             .subscribe(res => {
               this.cuestionario = res;
-              this.descripcion = res.Descripcion;
+              this.descripcion = res.descripcion;
             });
             // Obtenemos las preguntas del cuestionario y ordenamos preguntas/respuestas en funcion a lo establecido en el cuestionario
             this.peticionesAPI.DamePreguntasCuestionario(this.juegoSeleccionado.cuestionarioId)
@@ -139,12 +139,12 @@ export class JuegoDeCuestionarioPage implements OnInit {
               this.preguntasYRespuestas = [];
               this.PreguntasCuestionario.forEach (p => {
                 let r: any;
-                if (p.Tipo === 'Cuatro opciones') {
+                if (p.tipo === 'Cuatro opciones') {
                 // tslint:disable-next-line:max-line-length
-                  r = [p.RespuestaCorrecta, p.RespuestaIncorrecta1, p.RespuestaIncorrecta2, p.RespuestaIncorrecta3];
-                } else if (p.Tipo === 'Emparejamiento') {
+                  r = [p.respuestaCorrecta, p.respuestaIncorrecta1, p.respuestaIncorrecta2, p.respuestaIncorrecta3];
+                } else if (p.tipo === 'Emparejamiento') {
                   r = [];
-                  p.Emparejamientos.forEach (pareja => r.push (pareja.r));
+                  p.emparejamientos.forEach (pareja => r.push (pareja.r));
                 }
                 this.preguntasYRespuestas.push ({
                   pregunta: p,
@@ -153,9 +153,9 @@ export class JuegoDeCuestionarioPage implements OnInit {
               });
               console.log ('preguntas y respuestas preparadas');
               console.log (this.preguntasYRespuestas);
-              if (this.juegoSeleccionado.Presentacion === 'Mismo orden para todos') {
+              if (this.juegoSeleccionado.presentacion === 'Mismo orden para todos') {
                 this.DesordenarRespuestas ();
-              } else if (this.juegoSeleccionado.Presentacion === 'Preguntas desordenadas') {
+              } else if (this.juegoSeleccionado.presentacion === 'Preguntas desordenadas') {
                 this.DesordenarPreguntas ();
               } else {
                 console.log ('preguntas y respuestas desordenadas');
@@ -169,7 +169,7 @@ export class JuegoDeCuestionarioPage implements OnInit {
                   for (let j = 0; j < 4; j++) {
                       this.seleccion[i][j] = false;
                   }
-                  this.imagenesPreguntas [i] = URL.ImagenesPregunta + this.preguntasYRespuestas[i].pregunta.Imagen;
+                  this.imagenesPreguntas [i] = URL.ImagenesPregunta + this.preguntasYRespuestas[i].pregunta.imagen;
               }
             });
            
@@ -180,7 +180,7 @@ export class JuegoDeCuestionarioPage implements OnInit {
             // tslint:disable-next-line:no-shadowed-variable
             .subscribe(res => {
               this.cuestionario = res;
-              this.descripcion = res.Descripcion;
+              this.descripcion = res.descripcion;
             });
             this.peticionesAPI.DamePreguntasCuestionario(this.juegoSeleccionado.cuestionarioId)
             // tslint:disable-next-line:no-shadowed-variable
@@ -200,38 +200,38 @@ export class JuegoDeCuestionarioPage implements OnInit {
                 this.imagenesPreguntas = [];
                 this.contestar = [];
                 for (let i = 0; i < this.PreguntasCuestionario.length; i++) {
-                  this.imagenesPreguntas [i] = URL.ImagenesPregunta + this.PreguntasCuestionario[i].Imagen;
-                  if (this.PreguntasCuestionario[i].Tipo === 'Emparejamiento') {
+                  this.imagenesPreguntas [i] = URL.ImagenesPregunta + this.PreguntasCuestionario[i].imagen;
+                  if (this.PreguntasCuestionario[i].tipo === 'Emparejamiento') {
                     // tslint:disable-next-line:max-line-length
-                    this.respuestasEmparejamientos[i] = respuestas.filter (r => r.preguntaId === this.PreguntasCuestionario[i].id)[0].Respuesta;
+                    this.respuestasEmparejamientos[i] = respuestas.filter (r => r.preguntaId === this.PreguntasCuestionario[i].id)[0].respuesta;
                     if (this.respuestasEmparejamientos[i] === undefined) {
                       this.contestar[i] = false;
-                      this.feedbacks.push(this.PreguntasCuestionario[i].FeedbackIncorrecto);
+                      this.feedbacks.push(this.PreguntasCuestionario[i].feedbackIncorrecto);
 
                     } else {
                       this.contestar[i] = true;
                       // Vamos a ver si a respuesta es correcta
                       let cont = 0;
-                      for (let j = 0; j < this.PreguntasCuestionario[i].Emparejamientos.length; j++) {
-                        if (this.PreguntasCuestionario[i].Emparejamientos[j].r === this.respuestasEmparejamientos[i][j]) {
+                      for (let j = 0; j < this.PreguntasCuestionario[i].emparejamientos.length; j++) {
+                        if (this.PreguntasCuestionario[i].emparejamientos[j].r === this.respuestasEmparejamientos[i][j]) {
                           cont++;
                         }
                       }
-                      if (cont === this.PreguntasCuestionario[i].Emparejamientos.length) {
-                        this.feedbacks.push(this.PreguntasCuestionario[i].FeedbackCorrecto);
+                      if (cont === this.PreguntasCuestionario[i].emparejamientos.length) {
+                        this.feedbacks.push(this.PreguntasCuestionario[i].feedbackCorrecto);
                       } else {
-                        this.feedbacks.push(this.PreguntasCuestionario[i].FeedbackIncorrecto);
+                        this.feedbacks.push(this.PreguntasCuestionario[i].feedbackIncorrecto);
                       }
 
                     }
 
                   } else {
                     // tslint:disable-next-line:max-line-length
-                    this.RespuestasAlumno[i] = respuestas.filter (respuesta => respuesta.preguntaId === this.PreguntasCuestionario[i].id)[0].Respuesta[0];
-                    if (this.RespuestasAlumno[i] ===  this.PreguntasCuestionario[i].RespuestaCorrecta) {
-                      this.feedbacks.push(this.PreguntasCuestionario[i].FeedbackCorrecto);
+                    this.RespuestasAlumno[i] = respuestas.filter (respuesta => respuesta.preguntaId === this.PreguntasCuestionario[i].id)[0].respuesta[0];
+                    if (this.RespuestasAlumno[i] ===  this.PreguntasCuestionario[i].respuestaCorrecta) {
+                      this.feedbacks.push(this.PreguntasCuestionario[i].feedbackCorrecto);
                     } else {
-                      this.feedbacks.push(this.PreguntasCuestionario[i].FeedbackIncorrecto);
+                      this.feedbacks.push(this.PreguntasCuestionario[i].feedbackIncorrecto);
                     }
 
                   }
@@ -255,7 +255,7 @@ export class JuegoDeCuestionarioPage implements OnInit {
           // tslint:disable-next-line:no-shadowed-variable
           .subscribe(res => {
             this.cuestionario = res;
-            this.descripcion = res.Descripcion;
+            this.descripcion = res.descripcion;
           });
           // Obtenemos las preguntas del cuestionario y ordenamos preguntas/respuestas en funcion a lo establecido en el cuestionario
         // this.peticionesAPI.DamePreguntasCuestionario(this.juegoSeleccionado.cuestionarioId)
@@ -306,12 +306,12 @@ export class JuegoDeCuestionarioPage implements OnInit {
             this.preguntasYRespuestas = [];
             this.PreguntasCuestionario.forEach (p => {
               let r: any;
-              if (p.Tipo === 'Cuatro opciones') {
+              if (p.tipo === 'Cuatro opciones') {
               // tslint:disable-next-line:max-line-length
-                r = [p.RespuestaCorrecta, p.RespuestaIncorrecta1, p.RespuestaIncorrecta2, p.RespuestaIncorrecta3];
-              } else if (p.Tipo === 'Emparejamiento') {
+                r = [p.respuestaCorrecta, p.respuestaIncorrecta1, p.respuestaIncorrecta2, p.respuestaIncorrecta3];
+              } else if (p.tipo === 'Emparejamiento') {
                 r = [];
-                p.Emparejamientos.forEach (pareja => r.push (pareja.r));
+                p.emparejamientos.forEach (pareja => r.push (pareja.r));
               }
               this.preguntasYRespuestas.push ({
                 pregunta: p,
@@ -467,7 +467,7 @@ export class JuegoDeCuestionarioPage implements OnInit {
           this.Nota = this.Nota + this.puntuacionCorrecta;
           this.feedbacks.push(this.preguntasYRespuestas[i].pregunta.FeedbackCorrecto);
         } else if (this.RespuestasAlumno[i] === undefined) {
-          this.feedbacks.push(this.PreguntasCuestionario[i].FeedbackIncorrecto);
+          this.feedbacks.push(this.PreguntasCuestionario[i].feedbackIncorrecto);
         } else {
           console.log ('respuesta a la pregunta ' + i + ' es incorrecta');
           console.log (this.preguntasYRespuestas[i].pregunta);
@@ -721,7 +721,7 @@ export class JuegoDeCuestionarioPage implements OnInit {
           this.Nota = this.Nota + this.puntuacionCorrecta;
           this.feedbacks.push(this.preguntasYRespuestas[i].pregunta.FeedbackCorrecto);
         } else if (this.RespuestasAlumno[i] === undefined) {
-          this.feedbacks.push(this.PreguntasCuestionario[i].FeedbackIncorrecto);
+          this.feedbacks.push(this.PreguntasCuestionario[i].feedbackIncorrecto);
         } else {
           console.log ('respuesta a la pregunta ' + i + ' es incorrecta');
           console.log (this.preguntasYRespuestas[i].pregunta);
@@ -932,11 +932,11 @@ export class JuegoDeCuestionarioPage implements OnInit {
       this.listaAlumnosOrdenadaPorNota = inscripciones;
       // tslint:disable-next-line:only-arrow-functions
       this.listaAlumnosOrdenadaPorNota = this.listaAlumnosOrdenadaPorNota.sort(function(a, b) {
-        if (b.Nota !== a.Nota) {
-          return b.Nota - a.Nota;
+        if (b.nota !== a.nota) {
+          return b.nota - a.nota;
         } else {
           // en caso de empate en la nota, gana el que empleó menos tiempo
-          return a.TiempoEmpleado - b.TiempoEmpleado;
+          return a.tiempoEmpleado - b.tiempoEmpleado;
         }
       });
       this.TablaClasificacionTotal();

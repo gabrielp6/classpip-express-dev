@@ -1,9 +1,9 @@
 export class JuegoDeEncuestaRapida {
 
-    NombreJuego: string;
-    Tipo: string;
-    Clave: string;
-    Respuestas: any;
+    nombreJuego: string;
+    tipo: string;
+    clave: string;
+    respuestas: any;
     id: number;
     profesorId: number;
     cuestionarioSatisfaccionId: number;
@@ -11,11 +11,11 @@ export class JuegoDeEncuestaRapida {
     // tslint:disable-next-line:max-line-length
     constructor(NombreJuego?: string, Tipo?: string, Clave?: string,
                 profesorId?: number, cuestionarioSatisfaccionId?: number) {
-        this.NombreJuego = NombreJuego;
-        this.Tipo = Tipo;
+        this.nombreJuego = NombreJuego;
+        this.tipo = Tipo;
         this.profesorId = profesorId;
-        this.Clave = Clave;
+        this.clave = Clave;
         this.cuestionarioSatisfaccionId = cuestionarioSatisfaccionId;
-        this.Respuestas = [];
+        this.respuestas = [];
     }
 }
