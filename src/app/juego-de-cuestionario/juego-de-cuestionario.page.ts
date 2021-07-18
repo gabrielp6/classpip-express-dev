@@ -119,14 +119,22 @@ export class JuegoDeCuestionarioPage implements OnInit {
       .subscribe (res => {
         this.alumnoJuegoDeCuestionario = res[0];
   
+<<<<<<< HEAD
         if (!this.alumnoJuegoDeCuestionario.contestado) {
+=======
+        if (!this.alumnoJuegoDeCuestionario.Contestado) {
+>>>>>>> a346562d7d469156812194f506e437561e303289
   
             // Obtenemos el cuestionario a realizar
             this.peticionesAPI.DameCuestionario(this.juegoSeleccionado.cuestionarioId)
             // tslint:disable-next-line:no-shadowed-variable
             .subscribe(res => {
               this.cuestionario = res;
+<<<<<<< HEAD
               this.descripcion = res.descripcion;
+=======
+              this.descripcion = res.Descripcion;
+>>>>>>> a346562d7d469156812194f506e437561e303289
             });
             // Obtenemos las preguntas del cuestionario y ordenamos preguntas/respuestas en funcion a lo establecido en el cuestionario
             this.peticionesAPI.DamePreguntasCuestionario(this.juegoSeleccionado.cuestionarioId)
@@ -139,12 +147,21 @@ export class JuegoDeCuestionarioPage implements OnInit {
               this.preguntasYRespuestas = [];
               this.PreguntasCuestionario.forEach (p => {
                 let r: any;
+<<<<<<< HEAD
                 if (p.tipo === 'Cuatro opciones') {
                 // tslint:disable-next-line:max-line-length
                   r = [p.respuestaCorrecta, p.respuestaIncorrecta1, p.respuestaIncorrecta2, p.respuestaIncorrecta3];
                 } else if (p.tipo === 'Emparejamiento') {
                   r = [];
                   p.emparejamientos.forEach (pareja => r.push (pareja.r));
+=======
+                if (p.Tipo === 'Cuatro opciones') {
+                // tslint:disable-next-line:max-line-length
+                  r = [p.RespuestaCorrecta, p.RespuestaIncorrecta1, p.RespuestaIncorrecta2, p.RespuestaIncorrecta3];
+                } else if (p.Tipo === 'Emparejamiento') {
+                  r = [];
+                  p.Emparejamientos.forEach (pareja => r.push (pareja.r));
+>>>>>>> a346562d7d469156812194f506e437561e303289
                 }
                 this.preguntasYRespuestas.push ({
                   pregunta: p,
@@ -153,9 +170,15 @@ export class JuegoDeCuestionarioPage implements OnInit {
               });
               console.log ('preguntas y respuestas preparadas');
               console.log (this.preguntasYRespuestas);
+<<<<<<< HEAD
               if (this.juegoSeleccionado.presentacion === 'Mismo orden para todos') {
                 this.DesordenarRespuestas ();
               } else if (this.juegoSeleccionado.presentacion === 'Preguntas desordenadas') {
+=======
+              if (this.juegoSeleccionado.Presentacion === 'Mismo orden para todos') {
+                this.DesordenarRespuestas ();
+              } else if (this.juegoSeleccionado.Presentacion === 'Preguntas desordenadas') {
+>>>>>>> a346562d7d469156812194f506e437561e303289
                 this.DesordenarPreguntas ();
               } else {
                 console.log ('preguntas y respuestas desordenadas');
@@ -169,7 +192,11 @@ export class JuegoDeCuestionarioPage implements OnInit {
                   for (let j = 0; j < 4; j++) {
                       this.seleccion[i][j] = false;
                   }
+<<<<<<< HEAD
                   this.imagenesPreguntas [i] = URL.ImagenesPregunta + this.preguntasYRespuestas[i].pregunta.imagen;
+=======
+                  this.imagenesPreguntas [i] = URL.ImagenesPregunta + this.preguntasYRespuestas[i].pregunta.Imagen;
+>>>>>>> a346562d7d469156812194f506e437561e303289
               }
             });
            
@@ -180,7 +207,11 @@ export class JuegoDeCuestionarioPage implements OnInit {
             // tslint:disable-next-line:no-shadowed-variable
             .subscribe(res => {
               this.cuestionario = res;
+<<<<<<< HEAD
               this.descripcion = res.descripcion;
+=======
+              this.descripcion = res.Descripcion;
+>>>>>>> a346562d7d469156812194f506e437561e303289
             });
             this.peticionesAPI.DamePreguntasCuestionario(this.juegoSeleccionado.cuestionarioId)
             // tslint:disable-next-line:no-shadowed-variable
@@ -200,6 +231,7 @@ export class JuegoDeCuestionarioPage implements OnInit {
                 this.imagenesPreguntas = [];
                 this.contestar = [];
                 for (let i = 0; i < this.PreguntasCuestionario.length; i++) {
+<<<<<<< HEAD
                   this.imagenesPreguntas [i] = URL.ImagenesPregunta + this.PreguntasCuestionario[i].imagen;
                   if (this.PreguntasCuestionario[i].tipo === 'Emparejamiento') {
                     // tslint:disable-next-line:max-line-length
@@ -207,11 +239,21 @@ export class JuegoDeCuestionarioPage implements OnInit {
                     if (this.respuestasEmparejamientos[i] === undefined) {
                       this.contestar[i] = false;
                       this.feedbacks.push(this.PreguntasCuestionario[i].feedbackIncorrecto);
+=======
+                  this.imagenesPreguntas [i] = URL.ImagenesPregunta + this.PreguntasCuestionario[i].Imagen;
+                  if (this.PreguntasCuestionario[i].Tipo === 'Emparejamiento') {
+                    // tslint:disable-next-line:max-line-length
+                    this.respuestasEmparejamientos[i] = respuestas.filter (r => r.preguntaId === this.PreguntasCuestionario[i].id)[0].Respuesta;
+                    if (this.respuestasEmparejamientos[i] === undefined) {
+                      this.contestar[i] = false;
+                      this.feedbacks.push(this.PreguntasCuestionario[i].FeedbackIncorrecto);
+>>>>>>> a346562d7d469156812194f506e437561e303289
 
                     } else {
                       this.contestar[i] = true;
                       // Vamos a ver si a respuesta es correcta
                       let cont = 0;
+<<<<<<< HEAD
                       for (let j = 0; j < this.PreguntasCuestionario[i].emparejamientos.length; j++) {
                         if (this.PreguntasCuestionario[i].emparejamientos[j].r === this.respuestasEmparejamientos[i][j]) {
                           cont++;
@@ -221,17 +263,36 @@ export class JuegoDeCuestionarioPage implements OnInit {
                         this.feedbacks.push(this.PreguntasCuestionario[i].feedbackCorrecto);
                       } else {
                         this.feedbacks.push(this.PreguntasCuestionario[i].feedbackIncorrecto);
+=======
+                      for (let j = 0; j < this.PreguntasCuestionario[i].Emparejamientos.length; j++) {
+                        if (this.PreguntasCuestionario[i].Emparejamientos[j].r === this.respuestasEmparejamientos[i][j]) {
+                          cont++;
+                        }
+                      }
+                      if (cont === this.PreguntasCuestionario[i].Emparejamientos.length) {
+                        this.feedbacks.push(this.PreguntasCuestionario[i].FeedbackCorrecto);
+                      } else {
+                        this.feedbacks.push(this.PreguntasCuestionario[i].FeedbackIncorrecto);
+>>>>>>> a346562d7d469156812194f506e437561e303289
                       }
 
                     }
 
                   } else {
                     // tslint:disable-next-line:max-line-length
+<<<<<<< HEAD
                     this.RespuestasAlumno[i] = respuestas.filter (respuesta => respuesta.preguntaId === this.PreguntasCuestionario[i].id)[0].respuesta[0];
                     if (this.RespuestasAlumno[i] ===  this.PreguntasCuestionario[i].respuestaCorrecta) {
                       this.feedbacks.push(this.PreguntasCuestionario[i].feedbackCorrecto);
                     } else {
                       this.feedbacks.push(this.PreguntasCuestionario[i].feedbackIncorrecto);
+=======
+                    this.RespuestasAlumno[i] = respuestas.filter (respuesta => respuesta.preguntaId === this.PreguntasCuestionario[i].id)[0].Respuesta[0];
+                    if (this.RespuestasAlumno[i] ===  this.PreguntasCuestionario[i].RespuestaCorrecta) {
+                      this.feedbacks.push(this.PreguntasCuestionario[i].FeedbackCorrecto);
+                    } else {
+                      this.feedbacks.push(this.PreguntasCuestionario[i].FeedbackIncorrecto);
+>>>>>>> a346562d7d469156812194f506e437561e303289
                     }
 
                   }
@@ -255,7 +316,11 @@ export class JuegoDeCuestionarioPage implements OnInit {
           // tslint:disable-next-line:no-shadowed-variable
           .subscribe(res => {
             this.cuestionario = res;
+<<<<<<< HEAD
             this.descripcion = res.descripcion;
+=======
+            this.descripcion = res.Descripcion;
+>>>>>>> a346562d7d469156812194f506e437561e303289
           });
           // Obtenemos las preguntas del cuestionario y ordenamos preguntas/respuestas en funcion a lo establecido en el cuestionario
         // this.peticionesAPI.DamePreguntasCuestionario(this.juegoSeleccionado.cuestionarioId)
@@ -306,12 +371,21 @@ export class JuegoDeCuestionarioPage implements OnInit {
             this.preguntasYRespuestas = [];
             this.PreguntasCuestionario.forEach (p => {
               let r: any;
+<<<<<<< HEAD
               if (p.tipo === 'Cuatro opciones') {
               // tslint:disable-next-line:max-line-length
                 r = [p.respuestaCorrecta, p.respuestaIncorrecta1, p.respuestaIncorrecta2, p.respuestaIncorrecta3];
               } else if (p.tipo === 'Emparejamiento') {
                 r = [];
                 p.emparejamientos.forEach (pareja => r.push (pareja.r));
+=======
+              if (p.Tipo === 'Cuatro opciones') {
+              // tslint:disable-next-line:max-line-length
+                r = [p.RespuestaCorrecta, p.RespuestaIncorrecta1, p.RespuestaIncorrecta2, p.RespuestaIncorrecta3];
+              } else if (p.Tipo === 'Emparejamiento') {
+                r = [];
+                p.Emparejamientos.forEach (pareja => r.push (pareja.r));
+>>>>>>> a346562d7d469156812194f506e437561e303289
               }
               this.preguntasYRespuestas.push ({
                 pregunta: p,
@@ -467,7 +541,11 @@ export class JuegoDeCuestionarioPage implements OnInit {
           this.Nota = this.Nota + this.puntuacionCorrecta;
           this.feedbacks.push(this.preguntasYRespuestas[i].pregunta.FeedbackCorrecto);
         } else if (this.RespuestasAlumno[i] === undefined) {
+<<<<<<< HEAD
           this.feedbacks.push(this.PreguntasCuestionario[i].feedbackIncorrecto);
+=======
+          this.feedbacks.push(this.PreguntasCuestionario[i].FeedbackIncorrecto);
+>>>>>>> a346562d7d469156812194f506e437561e303289
         } else {
           console.log ('respuesta a la pregunta ' + i + ' es incorrecta');
           console.log (this.preguntasYRespuestas[i].pregunta);
@@ -721,7 +799,11 @@ export class JuegoDeCuestionarioPage implements OnInit {
           this.Nota = this.Nota + this.puntuacionCorrecta;
           this.feedbacks.push(this.preguntasYRespuestas[i].pregunta.FeedbackCorrecto);
         } else if (this.RespuestasAlumno[i] === undefined) {
+<<<<<<< HEAD
           this.feedbacks.push(this.PreguntasCuestionario[i].feedbackIncorrecto);
+=======
+          this.feedbacks.push(this.PreguntasCuestionario[i].FeedbackIncorrecto);
+>>>>>>> a346562d7d469156812194f506e437561e303289
         } else {
           console.log ('respuesta a la pregunta ' + i + ' es incorrecta');
           console.log (this.preguntasYRespuestas[i].pregunta);
@@ -932,11 +1014,19 @@ export class JuegoDeCuestionarioPage implements OnInit {
       this.listaAlumnosOrdenadaPorNota = inscripciones;
       // tslint:disable-next-line:only-arrow-functions
       this.listaAlumnosOrdenadaPorNota = this.listaAlumnosOrdenadaPorNota.sort(function(a, b) {
+<<<<<<< HEAD
         if (b.nota !== a.nota) {
           return b.nota - a.nota;
         } else {
           // en caso de empate en la nota, gana el que empleó menos tiempo
           return a.tiempoEmpleado - b.tiempoEmpleado;
+=======
+        if (b.Nota !== a.Nota) {
+          return b.Nota - a.Nota;
+        } else {
+          // en caso de empate en la nota, gana el que empleó menos tiempo
+          return a.TiempoEmpleado - b.TiempoEmpleado;
+>>>>>>> a346562d7d469156812194f506e437561e303289
         }
       });
       this.TablaClasificacionTotal();

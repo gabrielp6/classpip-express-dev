@@ -19,9 +19,15 @@ export class CalculosService {
         const alumnoId = listaAlumnosOrdenadaPorPuntos[i].alumnoId;
         alumno = alumnosDelJuego.filter(res => res.id === alumnoId)[0];
         // tslint:disable-next-line:max-line-length
+<<<<<<< HEAD
         rankingJuegoDeCompeticion[i] = new TablaAlumnoJuegoDeCuestionario(alumno.nombre, alumno.primerApellido, alumno.segundoApellido, alumno.imagenPerfil,
         // tslint:disable-next-line:max-line-length
         listaAlumnosOrdenadaPorPuntos[i].nota, listaAlumnosOrdenadaPorPuntos[i].contestado, alumnoId, listaAlumnosOrdenadaPorPuntos[i].tiempoEmpleado);
+=======
+        rankingJuegoDeCompeticion[i] = new TablaAlumnoJuegoDeCuestionario(alumno.Nombre, alumno.PrimerApellido, alumno.SegundoApellido, alumno.ImagenPerfil,
+        // tslint:disable-next-line:max-line-length
+        listaAlumnosOrdenadaPorPuntos[i].Nota, listaAlumnosOrdenadaPorPuntos[i].Contestado, alumnoId, listaAlumnosOrdenadaPorPuntos[i].TiempoEmpleado);
+>>>>>>> a346562d7d469156812194f506e437561e303289
         console.log ('nueva tabla');
         console.log (rankingJuegoDeCompeticion[i]);
       }
