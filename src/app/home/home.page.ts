@@ -51,8 +51,11 @@ export class HomePage {
                       console.log (juego[0]);
                       this.sesion.TomaJuego(juego[0]);
                       this.sesion.TomaNickName (this.nickname);
-                      this.comServer.EnviarNick (juego[0].profesorId, this.nickname);
-                    
+                      if (juego[0].Modalidad === 'Clásico') {
+                        this.comServer.EnviarNick (juego[0].profesorId, this.nickname);
+                      } else {
+                        this.comServer.EnviarNickYRegistrar (juego[0].profesorId, this.nickname, this.clave);
+                      }
                       this.navCtrl.navigateForward('/juego-de-cuestionario');
                       } else {
                         this.peticionesAPI.DameJuegoDeCogerTurnoRapido (this.clave)
