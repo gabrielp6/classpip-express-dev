@@ -13,6 +13,7 @@ import {MatStepper} from '@angular/material';
 
 import * as URL from '../URLs/urls';
 import { Observable } from 'rxjs';
+import { CDK_CONNECTED_OVERLAY_SCROLL_STRATEGY_FACTORY } from '@angular/cdk/overlay/typings/overlay-directives';
 
 
 
@@ -81,6 +82,27 @@ export class JuegoDeCuestionarioPage implements OnInit {
   contestar: boolean[];
   respuestasEmparejamientos: any[];
 
+
+
+  preguntaAMostrar: Pregunta;
+  imagenPreguntaAMostrar: string;
+  cuentaAtras: number;
+  interval;
+
+  cuentaAtras2: number;
+  interval2;
+  finDelJuego = false;
+  siguiente: number;
+  tengoResultadoDelJuego = false;
+  resultadoJuego: string;
+  opcionesDesordenadas: any[];
+  contestarEmparejamiento = true;
+  clasificacion: any;
+  respuestasKahoot: any[] = [];
+  styles: any;
+  puntosTotales: number; // acumula los puntos recibidos en el juego Kahoot
+  respuestasPreparadas = false;
+
   @ViewChild(IonSlides, { static: false }) slides: IonSlides;
 
 
@@ -112,139 +134,9 @@ export class JuegoDeCuestionarioPage implements OnInit {
 
     this.Modalidad = this.juegoSeleccionado.Modalidad;
 
-    if (this.juegoSeleccionado.Tipo === 'Juego De Cuestionario') {
-      // Obtenemos la inscripcion del alumno al juego de cuestionario
-      this.alumnoId = this.sesion.DameAlumno().id;
-      this.peticionesAPI.DameInscripcionAlumnoJuegoDeCuestionario(this.alumnoId, this.juegoSeleccionado.id)
-      .subscribe (res => {
-        this.alumnoJuegoDeCuestionario = res[0];
-  
-        if (!this.alumnoJuegoDeCuestionario.Contestado) {
-  
-            // Obtenemos el cuestionario a realizar
-            this.peticionesAPI.DameCuestionario(this.juegoSeleccionado.cuestionarioId)
-            // tslint:disable-next-line:no-shadowed-variable
-            .subscribe(res => {
-              this.cuestionario = res;
-              this.descripcion = res.Descripcion;
-            });
-            // Obtenemos las preguntas del cuestionario y ordenamos preguntas/respuestas en funcion a lo establecido en el cuestionario
-            this.peticionesAPI.DamePreguntasCuestionario(this.juegoSeleccionado.cuestionarioId)
-            // tslint:disable-next-line:no-shadowed-variable
-            .subscribe(res => {
-              this.seleccion = [];
-              this.PreguntasCuestionario = res;
-              this.contestar = Array(this.PreguntasCuestionario.length).fill (true);
-
-              this.preguntasYRespuestas = [];
-              this.PreguntasCuestionario.forEach (p => {
-                let r: any;
-                if (p.Tipo === 'Cuatro opciones') {
-                // tslint:disable-next-line:max-line-length
-                  r = [p.RespuestaCorrecta, p.RespuestaIncorrecta1, p.RespuestaIncorrecta2, p.RespuestaIncorrecta3];
-                } else if (p.Tipo === 'Emparejamiento') {
-                  r = [];
-                  p.Emparejamientos.forEach (pareja => r.push (pareja.r));
-                }
-                this.preguntasYRespuestas.push ({
-                  pregunta: p,
-                  respuestas: r,
-                });
-              });
-              console.log ('preguntas y respuestas preparadas');
-              console.log (this.preguntasYRespuestas);
-              if (this.juegoSeleccionado.Presentacion === 'Mismo orden para todos') {
-                this.DesordenarRespuestas ();
-              } else if (this.juegoSeleccionado.Presentacion === 'Preguntas desordenadas') {
-                this.DesordenarPreguntas ();
-              } else {
-                console.log ('preguntas y respuestas desordenadas');
-                this.DesordenarPreguntasYRespuestas ();
-              }
-              console.log ('todo preparado');
-              console.log (this.preguntasYRespuestas);
-              this.imagenesPreguntas = [];
-              for (let i = 0; i < this.preguntasYRespuestas.length; i++) {
-                  this.seleccion[i] = [];
-                  for (let j = 0; j < 4; j++) {
-                      this.seleccion[i][j] = false;
-                  }
-                  this.imagenesPreguntas [i] = URL.ImagenesPregunta + this.preguntasYRespuestas[i].pregunta.Imagen;
-              }
-            });
-           
-
-        } else {
-            // el cuestionario ya ha sido contestado
-            this.peticionesAPI.DameCuestionario(this.juegoSeleccionado.cuestionarioId)
-            // tslint:disable-next-line:no-shadowed-variable
-            .subscribe(res => {
-              this.cuestionario = res;
-              this.descripcion = res.Descripcion;
-            });
-            this.peticionesAPI.DamePreguntasCuestionario(this.juegoSeleccionado.cuestionarioId)
-            // tslint:disable-next-line:no-shadowed-variable
-            .subscribe(res => {
-              this.seleccion = [];
-     
-              this.PreguntasCuestionario = res;
-       
-              this.puntuacionMaxima = this.puntuacionCorrecta * this.PreguntasCuestionario.length;
-
-              this.peticionesAPI.DameRespuestasAlumnoJuegoDeCuestionario (this.alumnoJuegoDeCuestionario.id)
-              .subscribe (respuestas => {
-                console.log ('ya tengo las respuestas');
-                console.log (respuestas);
-                this.RespuestasAlumno = [];
-                this.respuestasEmparejamientos = [];
-                this.imagenesPreguntas = [];
-                this.contestar = [];
-                for (let i = 0; i < this.PreguntasCuestionario.length; i++) {
-                  this.imagenesPreguntas [i] = URL.ImagenesPregunta + this.PreguntasCuestionario[i].Imagen;
-                  if (this.PreguntasCuestionario[i].Tipo === 'Emparejamiento') {
-                    // tslint:disable-next-line:max-line-length
-                    this.respuestasEmparejamientos[i] = respuestas.filter (r => r.preguntaId === this.PreguntasCuestionario[i].id)[0].Respuesta;
-                    if (this.respuestasEmparejamientos[i] === undefined) {
-                      this.contestar[i] = false;
-                      this.feedbacks.push(this.PreguntasCuestionario[i].FeedbackIncorrecto);
-
-                    } else {
-                      this.contestar[i] = true;
-                      // Vamos a ver si a respuesta es correcta
-                      let cont = 0;
-                      for (let j = 0; j < this.PreguntasCuestionario[i].Emparejamientos.length; j++) {
-                        if (this.PreguntasCuestionario[i].Emparejamientos[j].r === this.respuestasEmparejamientos[i][j]) {
-                          cont++;
-                        }
-                      }
-                      if (cont === this.PreguntasCuestionario[i].Emparejamientos.length) {
-                        this.feedbacks.push(this.PreguntasCuestionario[i].FeedbackCorrecto);
-                      } else {
-                        this.feedbacks.push(this.PreguntasCuestionario[i].FeedbackIncorrecto);
-                      }
-
-                    }
-
-                  } else {
-                    // tslint:disable-next-line:max-line-length
-                    this.RespuestasAlumno[i] = respuestas.filter (respuesta => respuesta.preguntaId === this.PreguntasCuestionario[i].id)[0].Respuesta[0];
-                    if (this.RespuestasAlumno[i] ===  this.PreguntasCuestionario[i].RespuestaCorrecta) {
-                      this.feedbacks.push(this.PreguntasCuestionario[i].FeedbackCorrecto);
-                    } else {
-                      this.feedbacks.push(this.PreguntasCuestionario[i].FeedbackIncorrecto);
-                    }
-
-                  }
-                }
-              });
-            });
-            if (this.juegoSeleccionado.JuegoTerminado) {
-              this.AlumnosDelJuego();
-            }
-        }
-
-      });
-    } else {
+    if (this.juegoSeleccionado.Modalidad === 'Clásico') {
+        console.log ('MODALIDAD: CLASICO');
+    
         // es un juego de cuestionario rápido
         this.alumnoJuegoDeCuestionario = new AlumnoJuegoDeCuestionario();
         this.NotaInicial = '0';
@@ -257,45 +149,7 @@ export class JuegoDeCuestionarioPage implements OnInit {
             this.cuestionario = res;
             this.descripcion = res.Descripcion;
           });
-          // Obtenemos las preguntas del cuestionario y ordenamos preguntas/respuestas en funcion a lo establecido en el cuestionario
-        // this.peticionesAPI.DamePreguntasCuestionario(this.juegoSeleccionado.cuestionarioId)
-        //   // tslint:disable-next-line:no-shadowed-variable
-        //   .subscribe(res => {
-        //     this.seleccion = [];
-        //     this.PreguntasCuestionario = res;
-
-        //     this.preguntasYRespuestas = [];
-        //     this.PreguntasCuestionario.forEach (p => {
-        //       // tslint:disable-next-line:max-line-length
-        //       const r = [p.RespuestaCorrecta, p.RespuestaIncorrecta1, p.RespuestaIncorrecta2, p.RespuestaIncorrecta3];
-        //       this.preguntasYRespuestas.push ({
-        //         pregunta: p,
-        //         respuestas: r,
-        //       });
-        //     });
-        //     if (this.juegoSeleccionado.Presentacion === 'Mismo orden para todos') {
-        //       this.DesordenarRespuestas ();
-        //     } else if (this.juegoSeleccionado.Presentacion === 'Preguntas desordenadas') {
-        //       this.DesordenarPreguntas ();
-        //     } else {
-        //       console.log ('preguntas y respuestas desordenadas');
-        //       this.DesordenarPreguntasYRespuestas ();
-        //     }
-        //     console.log ('preguntas y respuestas');
-        //     console.log (this.preguntasYRespuestas);
-        //     this.imagenesPreguntas = [];
-        //     for (let i = 0; i < this.preguntasYRespuestas.length; i++) {
-        //         this.seleccion[i] = [];
-        //         for (let j = 0; j < 4; j++) {
-        //             this.seleccion[i][j] = false;
-        //         }
-        //         this.imagenesPreguntas [i] = URL.ImagenesPregunta + this.preguntasYRespuestas[i].pregunta.Imagen;
-        //     }
-        //   });
-
-
-
-
+      
         this.peticionesAPI.DamePreguntasCuestionario(this.juegoSeleccionado.cuestionarioId)
           // tslint:disable-next-line:no-shadowed-variable
         .subscribe(res => {
@@ -339,6 +193,35 @@ export class JuegoDeCuestionarioPage implements OnInit {
                 this.imagenesPreguntas [i] = URL.ImagenesPregunta + this.preguntasYRespuestas[i].pregunta.Imagen;
             }
         });
+    } else {
+      console.log ('MODALIDAD: KAHOOT');
+      this.nickName = this.sesion.DameNickName();
+       // Obtenemos el cuestionario a realizar
+       this.peticionesAPI.DameCuestionario(this.juegoSeleccionado.cuestionarioId)
+       // tslint:disable-next-line:no-shadowed-variable
+       .subscribe(res => {
+         this.cuestionario = res;
+         this.descripcion = res.Descripcion;
+       });
+       // Obtenemos las preguntas del cuestionario y ordenamos preguntas/respuestas en funcion a lo establecido en el cuestionario
+       this.peticionesAPI.DamePreguntasCuestionario(this.juegoSeleccionado.cuestionarioId)
+       // tslint:disable-next-line:no-shadowed-variable
+       .subscribe(res => {
+         this.PreguntasCuestionario = res;
+         this.contestar = Array(this.PreguntasCuestionario.length).fill (true);
+       });
+      // Indico lo que haré cuando reciba los resultados finales del juego en el caso del Kahoot
+      this.comServer.EsperoResultadoFinalKahoot ()
+      .subscribe (resultado => {
+           console.log ('tengo resultado del juego', resultado);
+           this.tengoResultadoDelJuego = true;
+           this.clasificacion = resultado;
+           // El resultado final del juego Kahoot es una lista con en la que cada elemento 
+           // tiene: 
+           //    alumno
+           //    puntos
+      });
+
     }
   }
 
@@ -855,9 +738,9 @@ export class JuegoDeCuestionarioPage implements OnInit {
 
   //PARA LA MODALIDAD KAHOOT
 
-  EnviarRespuestaKahoot(){
-    this.comServer.EnviarRespuestaKahoot(this.alumnoId, this.RespuestaEscogida);
-  }
+  // EnviarRespuestaKahoot(){
+  //   this.comServer.EnviarRespuestaKahoot(this.alumnoId, this.RespuestaEscogida);
+  // }
 
   EnviarConexionAlumnoKahoot(alumnoId :number){
     this.comServer.EnviarConexionAlumnoKahoot(alumnoId);
@@ -878,31 +761,76 @@ export class JuegoDeCuestionarioPage implements OnInit {
   }
 
   doCheck() {
- 
-    if (this.registrado) {
-      console.log ('vamos al ultimo slide');
-      this.slides.slideTo (this.PreguntasCuestionario.length + 2);
-      this.slideActual = this.PreguntasCuestionario.length + 2;
+    if (this.juegoSeleccionado.Modalidad === 'Kahoot') {
+      console.log ('estamos en do check');
+      // if (!this.alumnoJuegoDeCuestionario.Contestado) {
+
+      //   this.slides.getActiveIndex().then(index => {
+      //     if (index === 0 && this.empezado) {
+      //       // no podemos retroceder
+      //       this.slides.slideTo (1);
+
+      //     } else if (index === 1 && !this.empezado) {
+      //       // Solo podemos empezar si pulsamos el botón
+      //       this.slides.slideTo(0);
+      //     } else if (index === 2 && !this.finDelJuego) {
+      //       // no podemos avanzar hasta que acabe el juevo
+      //       this.slides.slideTo (1);
+      //     } else {
+      //       this.slideActual = index;
+      //     }
+      //   });
+      // } else {
+      //   this.slides.getActiveIndex().then(index => {
+      //     this.slideActual = index;
+      //   });
+      // }
+
+
+        this.slides.getActiveIndex().then(index => {
+          if (index === 0 && this.empezado) {
+            // no podemos retroceder
+            this.slides.slideTo (1);
+
+          } else if (index === 1 && !this.empezado) {
+            // Solo podemos empezar si pulsamos el botón
+            this.slides.slideTo(0);
+          } else if (index === 2 && !this.finDelJuego) {
+            // no podemos avanzar hasta que acabe el juevo
+            this.slides.slideTo (1);
+          } else {
+            this.slideActual = index;
+          }
+        });
+     
 
     } else {
-      this.slides.getActiveIndex().then(index => {
+ 
+      if (this.registrado) {
+        console.log ('vamos al ultimo slide');
+        this.slides.slideTo (this.PreguntasCuestionario.length + 2);
+        this.slideActual = this.PreguntasCuestionario.length + 2;
 
-        console.log ('estamos en el slide ' + index);
-        if (!this.registrado && index === this.PreguntasCuestionario.length + 2) {
-          // pretende ir a la pantalla de resultado sin haber regitrado las respuestas
-          console.log ('me quedo en el mismo slide');
-          this.slides.slideTo (index - 1);
-        } else if ((this.slideActual < index) && (index < this.PreguntasCuestionario.length + 1 )) {
-            console.log ('voy a cambio respuestas siguiente');
-           // this.cambioRespuestasSiguiente(index - 2);
-        } else if ((this.slideActual > index) && (index > 0)) {
-            console.log ('voy a cambio respuestas anterior');
-          //  this.cambioRespuestasAnterior(index);
-        }
-        this.slideActual = index;
+      } else {
+        this.slides.getActiveIndex().then(index => {
+
+          console.log ('estamos en el slide ' + index);
+          if (!this.registrado && index === this.PreguntasCuestionario.length + 2) {
+            // pretende ir a la pantalla de resultado sin haber regitrado las respuestas
+            console.log ('me quedo en el mismo slide');
+            this.slides.slideTo (index - 1);
+          } else if ((this.slideActual < index) && (index < this.PreguntasCuestionario.length + 1 )) {
+              console.log ('voy a cambio respuestas siguiente');
+            // this.cambioRespuestasSiguiente(index - 2);
+          } else if ((this.slideActual > index) && (index > 0)) {
+              console.log ('voy a cambio respuestas anterior');
+            //  this.cambioRespuestasAnterior(index);
+          }
+          this.slideActual = index;
 
 
-      });
+        });
+      }
     }
   }
 
@@ -984,6 +912,174 @@ export class JuegoDeCuestionarioPage implements OnInit {
     }
 
   }
+
+
+  // Aqui venimos cuando el alumno participa en un juego modo Kahoot
+  ConfirmarPreparado() {
+    this.empezado = true;
+    // if (this.juegoSeleccionado.Modalidad === 'Clásico') {
+    // this.comServer.ConfirmarPreparadoParaKahoot (this.nickName);
+    // } else {
+    //   console.log ('confirmo preparado');
+    //   this.comServer.ConfirmarPreparadoParaKahoot (this.alumnoId);
+    // }
+    this.comServer.ConfirmarPreparadoParaKahoot (this.nickName);
+    this.EsperarYMostrarSiguientePregunta();
+
+  }
+  EsperarYMostrarSiguientePregunta () {
+    this.siguiente = 0;
+    this.imagenesPreguntas = [];
+    this.puntosTotales = 0;
+
+    console.log ('voy a subscribirme a esperar');
+
+    this.comServer.EsperoParaLanzarPregunta ()
+      .subscribe ( (opcionesDesordenadas) => {
+        // cuando el dash indica que hay que avanzar a la pregunta siguiente nos envía el orden en que hay que mostrar
+        // las opciones de respuesta
+        console.log ('YA TENGO LA PREGUNTA AQUI');
+        this.RespuestasAlumno = [];
+        this.contestarEmparejamiento = true;
+        this.cuentaAtras = 3;
+        // preparamos las varables con las que mostraremos las opciones de respuesta
+        if (this.PreguntasCuestionario[this.siguiente].Tipo === 'Emparejamiento') {
+          this.RespuestasAlumno = opcionesDesordenadas;
+        } else {
+          this.opcionesDesordenadas = opcionesDesordenadas;
+        }
+
+        this.interval = setInterval(() => {
+     
+          this.cuentaAtras--;
+
+          if (this.cuentaAtras === 0) {
+                clearInterval(this.interval);
+                // Es el momento de mostrar la pregunta
+                this.preguntaAMostrar = this.PreguntasCuestionario[this.siguiente];
+                this.imagenPreguntaAMostrar =  URL.ImagenesPregunta + this.preguntaAMostrar.Imagen;
+                // Guardamos la imagen para cuando haya que mostrar los resultados al alumno
+                this.imagenesPreguntas.push (this.imagenPreguntaAMostrar);
+                this.siguiente++;
+                this.cuentaAtras2 = this.juegoSeleccionado.TiempoLimite;
+                // ponemos el timer para contar tiempo de respuesta
+                this.interval2 = setInterval(() => {
+                  this.cuentaAtras2--;
+                  if (this.cuentaAtras2 === 0) {
+                        clearInterval(this.interval2);
+                        // Se acabó el tiempo
+                        console.log ('se acabo el tiempo');
+                        this.CalcularPuntosYEnviar();
+                        console.log ('Ya he enviado ', this.siguiente);
+                        if (this.siguiente ===  this.PreguntasCuestionario.length) {
+                          console.log ('Ya no hay mas');
+                          // Ya no hay más preguntas
+                          this.finDelJuego = true;
+                          this.preguntaAMostrar = undefined;
+                       
+                          // tslint:disable-next-line:max-line-length
+                          const registro = new AlumnoJuegoDeCuestionario ( this.puntosTotales, true, this.juegoSeleccionado.id, this.alumnoId, 0);
+                          console.log ('actualizo el resultado en la base de datos ', registro);
+                          // // tslint:disable-next-line:max-line-length
+                          // this.peticionesAPI.PonerNotaAlumnoJuegoDeCuestionario(registro, this.alumnoJuegoDeCuestionario.id)
+                          // .subscribe();
+                        }
+                  }
+                }, 1000);
+          }
+        }, 1000);
+    });
+  }
+  CalcularPuntosYEnviar () {
+    // Calculo los puntos que obtiene el alumno con esta respuesta
+    let puntos;
+    // Los puntos se calculan en una escala del 0 al 10 en proporción al número de segundos sobrantes.
+    puntos = Math.round( (this.cuentaAtras2 * 10) / this.juegoSeleccionado.TiempoLimite);
+
+    if (this.preguntaAMostrar.Tipo === 'Emparejamiento') {
+      const final = this.preguntaAMostrar.Emparejamientos.length;
+      if (!this.contestarEmparejamiento) {
+        // La respuesta ha quedado en blanco
+        this.feedbacks.push(this.preguntaAMostrar.FeedbackIncorrecto);
+        this.RespuestasAlumno = undefined;
+        puntos = 0;
+
+      } else {
+        // tslint:disable-next-line:no-shadowed-variable
+        let cont = 0;
+        for (let j = 0; j < this.preguntaAMostrar.Emparejamientos.length; j++) {
+          if (this.preguntaAMostrar.Emparejamientos[j].r === this.RespuestasAlumno[j]) {
+            cont++;
+          }
+        }
+        if (cont === this.preguntaAMostrar.Emparejamientos.length) {
+          puntos = this.cuentaAtras2; // los puntos son los segundos que le quedaban
+          this.feedbacks.push(this.preguntaAMostrar.FeedbackCorrecto);
+        } else {
+          puntos = 0;
+          this.feedbacks.push(this.preguntaAMostrar.FeedbackIncorrecto);
+        }
+      }
+    } else {
+      if (this.RespuestasAlumno[0] === this.preguntaAMostrar.RespuestaCorrecta) {
+        puntos = this.cuentaAtras2; // los puntos son los segundos que le quedaban
+        this.feedbacks.push(this.preguntaAMostrar.FeedbackCorrecto);
+      } else {
+        puntos = 0;
+        this.feedbacks.push(this.preguntaAMostrar.FeedbackIncorrecto);
+      }
+    }
+    if (this.preguntaAMostrar.Tipo === 'Emparejamiento') {
+      this.contestar.push(this.contestarEmparejamiento);
+    } else {
+      this.contestar.push (undefined);
+    }
+    // Guardo las respuestas para poder mostrarlas al alumno al final, junto con los feedbacks
+    this.respuestasKahoot.push (this.RespuestasAlumno);
+    this.puntosTotales = this.puntosTotales + puntos;
+
+    this.EnviarRespuestaKahoot (puntos);
+
+  }
+  EnviarRespuestaKahoot(puntos: number) {
+
+    clearInterval(this.interval2);
+
+    // // tslint:disable-next-line:max-line-length
+    // this.peticionesAPI.GuardarRespuestaAlumnoJuegoDeCuestionario(new RespuestaJuegoDeCuestionario(this.alumnoJuegoDeCuestionario.id, this.preguntaAMostrar.id, this.RespuestasAlumno))
+    // .subscribe();
+
+    this.comServer.EnviarRespuestaKahootRapido(this.nickName, this.RespuestasAlumno,  puntos);
+    console.log ('he enviado la respuesta');
+    if (this.siguiente ===  this.PreguntasCuestionario.length) {
+      console.log ('Ya no hay mas');
+      // Ya no hay más preguntas
+      this.finDelJuego = true;
+
+   
+      // // tslint:disable-next-line:max-line-length
+      // const registro = new AlumnoJuegoDeCuestionario ( this.puntosTotales, true, this.juegoSeleccionado.id, this.alumnoId, 0);
+      // console.log ('actualizo el resultado en la base de datos ', registro);
+      // // tslint:disable-next-line:max-line-length
+      // this.peticionesAPI.PonerNotaAlumnoJuegoDeCuestionario(registro, this.alumnoJuegoDeCuestionario.id)
+      // .subscribe();
+    }
+
+    
+    this.preguntaAMostrar = undefined;
+    this.RespuestasAlumno = [];
+  }
   
 
+
+  GuardarRespuesta (respuesta) {
+    this.RespuestasAlumno[0] = respuesta;
+    this.CalcularPuntosYEnviar();
+
+  }
+  ReordenarRespuestas(event) {
+    const itemMove = this.RespuestasAlumno.splice(event.detail.from, 1)[0];
+    this.RespuestasAlumno.splice(event.detail.to, 0, itemMove);
+    event.detail.complete();
+  }
 }

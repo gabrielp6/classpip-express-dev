@@ -121,6 +121,40 @@ export class ComServerService {
     this.servidor.emit('conexionAlumnoKahoot', { alumnoId: alumnoId, profesorId: this.profesorId});
 
   }
+
+
+  ConfirmarPreparadoParaKahoot(id: any) {
+    // Si el juego es rápido el id es el nickname pero si es juego normal entonces el id es el id del alumno
+    // tslint:disable-next-line:object-literal-shorthand
+    this.servidor.emit('confirmacionPreparadoParaKahoot', { profesorId: this.profesorId, info: id});
+  }
+
+  //Para la función de avanzar pregunta Kahoot
+  public EsperoParaLanzarPregunta(): any {
+    return Observable.create((observer) => {
+        this.servidor.on('lanzarSiguientePregunta', (opcionesDesordenadas) => {
+            console.log ('RECIBO PREGUNTA');
+            observer.next(opcionesDesordenadas);
+        });
+    });
+  }
+
+  public EnviarRespuestaKahootRapido(nickAlumno: string, respuestasAlumno: string[], puntos:  number){
+    // tslint:disable-next-line:max-line-length
+    this.servidor.emit('respuestaAlumnoKahootRapido', { nick: nickAlumno, respuesta: respuestasAlumno, puntosObtenidos: puntos, profesorId: this.profesorId});
+
+  }
+
+
+  public EsperoResultadoFinalKahoot(): any {
+    return Observable.create((observer) => {
+        this.servidor.on('resultadoFinalKahoot', (resultado) => {
+            observer.next(resultado);
+        });
+    });
+  }
+
+
 }
 
 
