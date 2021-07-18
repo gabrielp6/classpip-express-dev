@@ -89,11 +89,7 @@ export class ComServerService {
     console.log ('dentro del servicio para recordar contraseña');
     // Me conecto momentaneamente para enviarle al alumno la contraseña que debe enviar por email
     this.servidor.connect();
-<<<<<<< HEAD
     this.servidor.emit ('recordarContraseña' , {email: alumno.email, nombre: alumno.username, contrasena: alumno.password});
-=======
-    this.servidor.emit ('recordarContraseña' , {email: alumno.Email, nombre: alumno.Username, contrasena: alumno.Password});
->>>>>>> a346562d7d469156812194f506e437561e303289
     // Me desconecto
     this.servidor.disconnect();
   }
