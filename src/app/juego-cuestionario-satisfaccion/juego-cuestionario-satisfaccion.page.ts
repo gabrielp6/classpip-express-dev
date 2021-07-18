@@ -59,11 +59,7 @@ export class JuegoCuestionarioSatisfaccionPage implements OnInit {
       console.log ('ya tengo cuestionario');
       console.log (this.cuestionarioSatisfaccion);
     });
-<<<<<<< HEAD
     if (this.juegoSeleccionado.tipo === 'Juego De Cuestionario de Satisfacción') {
-=======
-    if (this.juegoSeleccionado.Tipo === 'Juego De Cuestionario de Satisfacción') {
->>>>>>> a346562d7d469156812194f506e437561e303289
       this.alumno = this.sesion.DameAlumno();
       console.log ('Ya tengo el juego');
       console.log (this.juegoSeleccionado);
@@ -74,15 +70,9 @@ export class JuegoCuestionarioSatisfaccionPage implements OnInit {
           this.inscripcionAlumnoJuegoDeCuestionarioSatisfaccion = inscripcion[0];
           console.log ('ya tengo la inscripcion');
           console.log (this.inscripcionAlumnoJuegoDeCuestionarioSatisfaccion);
-<<<<<<< HEAD
           if (!this.inscripcionAlumnoJuegoDeCuestionarioSatisfaccion.contestado) {
             this.inscripcionAlumnoJuegoDeCuestionarioSatisfaccion.respuestasAfirmaciones = [];
             this.inscripcionAlumnoJuegoDeCuestionarioSatisfaccion.respuestasPreguntasAbiertas = [];
-=======
-          if (!this.inscripcionAlumnoJuegoDeCuestionarioSatisfaccion.Contestado) {
-            this.inscripcionAlumnoJuegoDeCuestionarioSatisfaccion.RespuestasAfirmaciones = [];
-            this.inscripcionAlumnoJuegoDeCuestionarioSatisfaccion.RespuestasPreguntasAbiertas = [];
->>>>>>> a346562d7d469156812194f506e437561e303289
           }
 
       });
@@ -94,13 +84,8 @@ export class JuegoCuestionarioSatisfaccionPage implements OnInit {
         this.juegoSeleccionado.id,
         0
       );
-<<<<<<< HEAD
       this.inscripcionAlumnoJuegoDeCuestionarioSatisfaccion.respuestasAfirmaciones = [];
       this.inscripcionAlumnoJuegoDeCuestionarioSatisfaccion.respuestasPreguntasAbiertas = [];
-=======
-      this.inscripcionAlumnoJuegoDeCuestionarioSatisfaccion.RespuestasAfirmaciones = [];
-      this.inscripcionAlumnoJuegoDeCuestionarioSatisfaccion.RespuestasPreguntasAbiertas = [];
->>>>>>> a346562d7d469156812194f506e437561e303289
     }
   }
 
@@ -108,7 +93,6 @@ export class JuegoCuestionarioSatisfaccionPage implements OnInit {
     console.log ('Avanzo desde el slide: ' + indice);
     // si abandono uno de los slides correspondientes a la entrada de respuesta a afirmaciones
     // guardo el valor introducido
-<<<<<<< HEAD
     if ((indice >= 1) && (indice <= this.cuestionarioSatisfaccion.afirmaciones.length)) {
       this.valores[indice - 1] = this.valor;
       this.inscripcionAlumnoJuegoDeCuestionarioSatisfaccion.respuestasAfirmaciones[indice - 1] = this.valor;
@@ -116,26 +100,13 @@ export class JuegoCuestionarioSatisfaccionPage implements OnInit {
     // si voy a entrar en uno de los slides correspondientes a la entrada de respuesta a afirmaciones
     // muestro el valor que tiene en ese momento la respuesta a esa afirmación
     if ((indice >= 0) && (indice < this.cuestionarioSatisfaccion.afirmaciones.length)) {
-=======
-    if ((indice >= 1) && (indice <= this.cuestionarioSatisfaccion.Afirmaciones.length)) {
-      this.valores[indice - 1] = this.valor;
-      this.inscripcionAlumnoJuegoDeCuestionarioSatisfaccion.RespuestasAfirmaciones[indice - 1] = this.valor;
-    }
-    // si voy a entrar en uno de los slides correspondientes a la entrada de respuesta a afirmaciones
-    // muestro el valor que tiene en ese momento la respuesta a esa afirmación
-    if ((indice >= 0) && (indice < this.cuestionarioSatisfaccion.Afirmaciones.length)) {
->>>>>>> a346562d7d469156812194f506e437561e303289
       console.log (' voy a mostrar: ' + this.valores[indice] );
       this.valor = this.valores[indice];
       this.mostrarRange = true;
     } else {
       this.mostrarRange = false;
     }
-<<<<<<< HEAD
     console.log ( this.inscripcionAlumnoJuegoDeCuestionarioSatisfaccion.respuestasAfirmaciones);
-=======
-    console.log ( this.inscripcionAlumnoJuegoDeCuestionarioSatisfaccion.RespuestasAfirmaciones);
->>>>>>> a346562d7d469156812194f506e437561e303289
 
   }
 
@@ -143,36 +114,22 @@ export class JuegoCuestionarioSatisfaccionPage implements OnInit {
     console.log ('Retrocedo desde el slide: ' + indice);
     // si abandono uno de los slides correspondientes a la entrada de respuesta a afirmaciones
     // guardo el valor introducido
-<<<<<<< HEAD
     if ((indice >= 1) && (indice <= this.cuestionarioSatisfaccion.afirmaciones.length)) {
       this.valores[indice - 1] = this.valor;
       this.inscripcionAlumnoJuegoDeCuestionarioSatisfaccion.respuestasAfirmaciones[indice - 1] = this.valor;
-=======
-    if ((indice >= 1) && (indice <= this.cuestionarioSatisfaccion.Afirmaciones.length)) {
-      this.valores[indice - 1] = this.valor;
-      this.inscripcionAlumnoJuegoDeCuestionarioSatisfaccion.RespuestasAfirmaciones[indice - 1] = this.valor;
->>>>>>> a346562d7d469156812194f506e437561e303289
 
     }
      // si voy a entrar en uno de los slides correspondientes a la entrada de respuesta a afirmaciones
     // muestro el valor que tiene en ese momento la respuesta a esa afirmación
    
-<<<<<<< HEAD
     if ((indice >= 2) && (indice <= this.cuestionarioSatisfaccion.afirmaciones.length + 1)) {
-=======
-    if ((indice >= 2) && (indice <= this.cuestionarioSatisfaccion.Afirmaciones.length + 1)) {
->>>>>>> a346562d7d469156812194f506e437561e303289
       console.log (' voy a mostrar: ' + this.valores[indice - 2] );
       this.valor = this.valores[indice - 2];
       this.mostrarRange = true;
     } else {
       this.mostrarRange = false;
     }
-<<<<<<< HEAD
     console.log ( this.inscripcionAlumnoJuegoDeCuestionarioSatisfaccion.respuestasAfirmaciones);
-=======
-    console.log ( this.inscripcionAlumnoJuegoDeCuestionarioSatisfaccion.RespuestasAfirmaciones);
->>>>>>> a346562d7d469156812194f506e437561e303289
   
   }
   
@@ -216,19 +173,11 @@ export class JuegoCuestionarioSatisfaccionPage implements OnInit {
     // Asi las respuestas no se perderán si el dashboard no está conectado al juego
     // Pero primero me traigo de nuevo el juego por si ha habido respuestas despues de que
     // me lo traje
-<<<<<<< HEAD
     this.peticionesAPI.DameJuegoDeEncuestaRapida (this.juegoSeleccionado.clave)
     .subscribe ( juego => {
       console.log ('recupero juego');
       console.log (juego[0]);
       juego[0].respuestas.push (this.inscripcionAlumnoJuegoDeCuestionarioSatisfaccion);
-=======
-    this.peticionesAPI.DameJuegoDeEncuestaRapida (this.juegoSeleccionado.Clave)
-    .subscribe ( juego => {
-      console.log ('recupero juego');
-      console.log (juego[0]);
-      juego[0].Respuestas.push (this.inscripcionAlumnoJuegoDeCuestionarioSatisfaccion);
->>>>>>> a346562d7d469156812194f506e437561e303289
       console.log ('voy a modificar el juego ');
       console.log (juego[0]);
       this.peticionesAPI.ModificarJuegoDeEncuestaRapida (juego[0]).subscribe();
@@ -254,11 +203,7 @@ export class JuegoCuestionarioSatisfaccionPage implements OnInit {
   Registrar() {
     console.log ('voy a registrar');
     console.log (this.inscripcionAlumnoJuegoDeCuestionarioSatisfaccion);
-<<<<<<< HEAD
     this.inscripcionAlumnoJuegoDeCuestionarioSatisfaccion.contestado = true;
-=======
-    this.inscripcionAlumnoJuegoDeCuestionarioSatisfaccion.Contestado = true;
->>>>>>> a346562d7d469156812194f506e437561e303289
     this.peticionesAPI.ModificaInscripcionAlumnoJuegoDeCuestionarioSatisfaccion (this.inscripcionAlumnoJuegoDeCuestionarioSatisfaccion)
     .subscribe (async () => {
       const confirm = await this.alertCtrl.create({
@@ -283,11 +228,7 @@ export class JuegoCuestionarioSatisfaccionPage implements OnInit {
   // }
 
   GuardaRespuestaAbierta (i: number, ev) {
-<<<<<<< HEAD
     this.inscripcionAlumnoJuegoDeCuestionarioSatisfaccion.respuestasPreguntasAbiertas[i] = ev.target.value;
-=======
-    this.inscripcionAlumnoJuegoDeCuestionarioSatisfaccion.RespuestasPreguntasAbiertas[i] = ev.target.value;
->>>>>>> a346562d7d469156812194f506e437561e303289
   }
   // Guarda(ev) {
   //   this.RespuestaAbierta = ev.target.value;
@@ -325,13 +266,8 @@ export class JuegoCuestionarioSatisfaccionPage implements OnInit {
          ]
       }]
     };
-<<<<<<< HEAD
     if (this.inscripcionAlumnoJuegoDeCuestionarioSatisfaccion.respuestasAfirmaciones[i] !== undefined) {
       this.opcionesPicker.columns[0].selectedIndex = this.inscripcionAlumnoJuegoDeCuestionarioSatisfaccion.respuestasAfirmaciones[i] - 1;
-=======
-    if (this.inscripcionAlumnoJuegoDeCuestionarioSatisfaccion.RespuestasAfirmaciones[i] !== undefined) {
-      this.opcionesPicker.columns[0].selectedIndex = this.inscripcionAlumnoJuegoDeCuestionarioSatisfaccion.RespuestasAfirmaciones[i] - 1;
->>>>>>> a346562d7d469156812194f506e437561e303289
     }
 
     const picker = await this.pickerCtrl.create(this.opcionesPicker);
@@ -340,11 +276,7 @@ export class JuegoCuestionarioSatisfaccionPage implements OnInit {
       if (this.pickerAction === 'done') {
           const col = await picker.getColumn ("valoracion");
           console.log ('pongo en ' + i + 'el valor ' + col.options[col.selectedIndex].value )
-<<<<<<< HEAD
           this.inscripcionAlumnoJuegoDeCuestionarioSatisfaccion.respuestasAfirmaciones[i] = col.options[col.selectedIndex].value;
-=======
-          this.inscripcionAlumnoJuegoDeCuestionarioSatisfaccion.RespuestasAfirmaciones[i] = col.options[col.selectedIndex].value;
->>>>>>> a346562d7d469156812194f506e437561e303289
           this.seleccion[i] = col.options[col.selectedIndex].value;
       }
     });
