@@ -35,7 +35,7 @@ export class PeticionesAPIService {
 
   public DameJuegoDeCogerTurnoRapido(clave: string): Observable<any[]> {
     return this.http.get<any[]>(this.APIUrlJuegoDeCogerTurnoRapido
-    + '?filter[where][Clave]=' + clave);
+    + '?filter[where][clave]=' + clave);
   }
 
   //OBTENEMOS DATOS DEL CUESTIONARIO SELECCIONADO
@@ -94,7 +94,7 @@ export class PeticionesAPIService {
 
   public DameJuegoDeVotacionRapida(clave: string): Observable<any[]> {
     return this.http.get<any[]>(this.APIUrlJuegoDeVotacionRapida
-    + '?filter[where][Clave]=' + clave);
+    + '?filter[where][clave]=' + clave);
   }
   public ModificarJuegoVotacionRapida( juego: any): Observable<any> {
     // tslint:disable-next-line:max-line-length
@@ -104,7 +104,7 @@ export class PeticionesAPIService {
 
 public DameJuegoDeCuestionarioRapido(clave: string): Observable<any[]> {
   return this.http.get<any[]>(this.APIUrlJuegoDeCuestionarioRapido
-  + '?filter[where][Clave]=' + clave);
+  + '?filter[where][clave]=' + clave);
 }
 public ModificarJuegoDeCuestionarioRapido( juego: any): Observable<any> {
   // tslint:disable-next-line:max-line-length
@@ -123,7 +123,7 @@ public ModificarJuegoDeCuestionarioRapido( juego: any): Observable<any> {
 
   public DameJuegoDeEncuestaRapida(clave: string): Observable<any[]> {
     return this.http.get<any[]>(this.APIUrlJuegoDeEncuestaRapida
-    + '?filter[where][Clave]=' + clave);
+    + '?filter[where][clave]=' + clave);
   }
 
 

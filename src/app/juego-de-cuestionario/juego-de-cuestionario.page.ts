@@ -147,7 +147,7 @@ export class JuegoDeCuestionarioPage implements OnInit {
           // tslint:disable-next-line:no-shadowed-variable
           .subscribe(res => {
             this.cuestionario = res;
-            this.descripcion = res.Descripcion;
+            this.descripcion = res.descripcion;
           });
       
         this.peticionesAPI.DamePreguntasCuestionario(this.juegoSeleccionado.cuestionarioId)
@@ -160,12 +160,12 @@ export class JuegoDeCuestionarioPage implements OnInit {
             this.preguntasYRespuestas = [];
             this.PreguntasCuestionario.forEach (p => {
               let r: any;
-              if (p.Tipo === 'Cuatro opciones') {
+              if (p.tipo === 'Cuatro opciones') {
               // tslint:disable-next-line:max-line-length
-                r = [p.RespuestaCorrecta, p.RespuestaIncorrecta1, p.RespuestaIncorrecta2, p.RespuestaIncorrecta3];
-              } else if (p.Tipo === 'Emparejamiento') {
+                r = [p.respuestaCorrecta, p.respuestaIncorrecta1, p.respuestaIncorrecta2, p.respuestaIncorrecta3];
+              } else if (p.tipo === 'Emparejamiento') {
                 r = [];
-                p.Emparejamientos.forEach (pareja => r.push (pareja.r));
+                p.emparejamientos.forEach (pareja => r.push (pareja.r));
               }
               this.preguntasYRespuestas.push ({
                 pregunta: p,
@@ -201,7 +201,7 @@ export class JuegoDeCuestionarioPage implements OnInit {
        // tslint:disable-next-line:no-shadowed-variable
        .subscribe(res => {
          this.cuestionario = res;
-         this.descripcion = res.Descripcion;
+         this.descripcion = res.descripcion;
        });
        // Obtenemos las preguntas del cuestionario y ordenamos preguntas/respuestas en funcion a lo establecido en el cuestionario
        this.peticionesAPI.DamePreguntasCuestionario(this.juegoSeleccionado.cuestionarioId)
@@ -350,7 +350,7 @@ export class JuegoDeCuestionarioPage implements OnInit {
           this.Nota = this.Nota + this.puntuacionCorrecta;
           this.feedbacks.push(this.preguntasYRespuestas[i].pregunta.FeedbackCorrecto);
         } else if (this.RespuestasAlumno[i] === undefined) {
-          this.feedbacks.push(this.PreguntasCuestionario[i].FeedbackIncorrecto);
+          this.feedbacks.push(this.PreguntasCuestionario[i].feedbackIncorrecto);
         } else {
           console.log ('respuesta a la pregunta ' + i + ' es incorrecta');
           console.log (this.preguntasYRespuestas[i].pregunta);
@@ -604,7 +604,7 @@ export class JuegoDeCuestionarioPage implements OnInit {
           this.Nota = this.Nota + this.puntuacionCorrecta;
           this.feedbacks.push(this.preguntasYRespuestas[i].pregunta.FeedbackCorrecto);
         } else if (this.RespuestasAlumno[i] === undefined) {
-          this.feedbacks.push(this.PreguntasCuestionario[i].FeedbackIncorrecto);
+          this.feedbacks.push(this.PreguntasCuestionario[i].feedbackIncorrecto);
         } else {
           console.log ('respuesta a la pregunta ' + i + ' es incorrecta');
           console.log (this.preguntasYRespuestas[i].pregunta);
@@ -860,11 +860,11 @@ export class JuegoDeCuestionarioPage implements OnInit {
       this.listaAlumnosOrdenadaPorNota = inscripciones;
       // tslint:disable-next-line:only-arrow-functions
       this.listaAlumnosOrdenadaPorNota = this.listaAlumnosOrdenadaPorNota.sort(function(a, b) {
-        if (b.Nota !== a.Nota) {
-          return b.Nota - a.Nota;
+        if (b.nota !== a.nota) {
+          return b.nota - a.nota;
         } else {
           // en caso de empate en la nota, gana el que empleó menos tiempo
-          return a.TiempoEmpleado - b.TiempoEmpleado;
+          return a.tiempoEmpleado - b.tiempoEmpleado;
         }
       });
       this.TablaClasificacionTotal();
@@ -943,7 +943,7 @@ export class JuegoDeCuestionarioPage implements OnInit {
         this.contestarEmparejamiento = true;
         this.cuentaAtras = 3;
         // preparamos las varables con las que mostraremos las opciones de respuesta
-        if (this.PreguntasCuestionario[this.siguiente].Tipo === 'Emparejamiento') {
+        if (this.PreguntasCuestionario[this.siguiente].tipo === 'Emparejamiento') {
           this.RespuestasAlumno = opcionesDesordenadas;
         } else {
           this.opcionesDesordenadas = opcionesDesordenadas;
@@ -957,7 +957,7 @@ export class JuegoDeCuestionarioPage implements OnInit {
                 clearInterval(this.interval);
                 // Es el momento de mostrar la pregunta
                 this.preguntaAMostrar = this.PreguntasCuestionario[this.siguiente];
-                this.imagenPreguntaAMostrar =  URL.ImagenesPregunta + this.preguntaAMostrar.Imagen;
+                this.imagenPreguntaAMostrar =  URL.ImagenesPregunta + this.preguntaAMostrar.imagen;
                 // Guardamos la imagen para cuando haya que mostrar los resultados al alumno
                 this.imagenesPreguntas.push (this.imagenPreguntaAMostrar);
                 this.siguiente++;
@@ -996,40 +996,40 @@ export class JuegoDeCuestionarioPage implements OnInit {
     // Los puntos se calculan en una escala del 0 al 10 en proporción al número de segundos sobrantes.
     puntos = Math.round( (this.cuentaAtras2 * 10) / this.juegoSeleccionado.TiempoLimite);
 
-    if (this.preguntaAMostrar.Tipo === 'Emparejamiento') {
-      const final = this.preguntaAMostrar.Emparejamientos.length;
+    if (this.preguntaAMostrar.tipo === 'Emparejamiento') {
+      const final = this.preguntaAMostrar.emparejamientos.length;
       if (!this.contestarEmparejamiento) {
         // La respuesta ha quedado en blanco
-        this.feedbacks.push(this.preguntaAMostrar.FeedbackIncorrecto);
+        this.feedbacks.push(this.preguntaAMostrar.feedbackIncorrecto);
         this.RespuestasAlumno = undefined;
         puntos = 0;
 
       } else {
         // tslint:disable-next-line:no-shadowed-variable
         let cont = 0;
-        for (let j = 0; j < this.preguntaAMostrar.Emparejamientos.length; j++) {
-          if (this.preguntaAMostrar.Emparejamientos[j].r === this.RespuestasAlumno[j]) {
+        for (let j = 0; j < this.preguntaAMostrar.emparejamientos.length; j++) {
+          if (this.preguntaAMostrar.emparejamientos[j].r === this.RespuestasAlumno[j]) {
             cont++;
           }
         }
-        if (cont === this.preguntaAMostrar.Emparejamientos.length) {
+        if (cont === this.preguntaAMostrar.emparejamientos.length) {
           puntos = this.cuentaAtras2; // los puntos son los segundos que le quedaban
-          this.feedbacks.push(this.preguntaAMostrar.FeedbackCorrecto);
+          this.feedbacks.push(this.preguntaAMostrar.feedbackCorrecto);
         } else {
           puntos = 0;
-          this.feedbacks.push(this.preguntaAMostrar.FeedbackIncorrecto);
+          this.feedbacks.push(this.preguntaAMostrar.feedbackIncorrecto);
         }
       }
     } else {
-      if (this.RespuestasAlumno[0] === this.preguntaAMostrar.RespuestaCorrecta) {
+      if (this.RespuestasAlumno[0] === this.preguntaAMostrar.respuestaCorrecta) {
         puntos = this.cuentaAtras2; // los puntos son los segundos que le quedaban
-        this.feedbacks.push(this.preguntaAMostrar.FeedbackCorrecto);
+        this.feedbacks.push(this.preguntaAMostrar.feedbackCorrecto);
       } else {
         puntos = 0;
-        this.feedbacks.push(this.preguntaAMostrar.FeedbackIncorrecto);
+        this.feedbacks.push(this.preguntaAMostrar.feedbackIncorrecto);
       }
     }
-    if (this.preguntaAMostrar.Tipo === 'Emparejamiento') {
+    if (this.preguntaAMostrar.tipo === 'Emparejamiento') {
       this.contestar.push(this.contestarEmparejamiento);
     } else {
       this.contestar.push (undefined);
