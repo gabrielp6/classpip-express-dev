@@ -31,7 +31,7 @@
  </div>
  </ion-content>
 
-<ion-content *ngIf = "!haVotado && juegoSeleccionado.ModoReparto !== 'Reparto libre'">
+<ion-content *ngIf = "!haVotado && juegoSeleccionado.modoReparto !== 'Reparto libre'">
 
   <!-- Si aun no ha votado -->
   <div *ngIf = 'juegoSeleccionado'>
@@ -41,15 +41,15 @@
     <ion-list>
       <ion-reorder-group (ionItemReorder)="reorderItems($event)" disabled="false">
 
-        <ion-item *ngFor="let concepto of juegoSeleccionado.Conceptos; let i=index">
+        <ion-item *ngFor="let concepto of juegoSeleccionado.conceptos; let i=index">
           <ion-item>
           <ion-label>
             {{concepto}}
           </ion-label>
           </ion-item>
           <!-- En el caso de que estemos en una de las posiciones que recibe puntos, muestro los puntos que le corresponden -->
-          <ion-label *ngIf = 'i < juegoSeleccionado.Puntos.length' style="font-size: large; color: red; text-align: right;">
-          {{juegoSeleccionado.Puntos[i]}}
+          <ion-label *ngIf = 'i < juegoSeleccionado.puntos.length' style="font-size: large; color: red; text-align: right;">
+          {{juegoSeleccionado.puntos[i]}}
           </ion-label>
           <ion-reorder slot="end"></ion-reorder>
         </ion-item>
@@ -77,7 +77,7 @@
 
 </ion-content>
 
-<ion-content *ngIf = "!haVotado && juegoSeleccionado.ModoReparto === 'Reparto libre'">
+<ion-content *ngIf = "!haVotado && juegoSeleccionado.modoReparto === 'Reparto libre'">
 
   
     <div *ngIf = 'puntosARepartir === 0' style="text-align:center; margin-top: 10%;">  

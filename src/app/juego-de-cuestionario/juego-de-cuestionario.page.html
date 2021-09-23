@@ -6,17 +6,18 @@
         <ion-icon name="arrow-back"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-title *ngIf = "juegoSeleccionado">{{juegoSeleccionado.NombreJuego}}</ion-title>
+    <ion-title *ngIf = "juegoSeleccionado">{{juegoSeleccionado.nombreJuego}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 
  
-<ion-content *ngIf = "juegoSeleccionado && juegoSeleccionado.Tipo === 'Juego De Cuestionario Rápido' && juegoSeleccionado.Modalidad === 'Clásico';">
+<ion-content *ngIf = "juegoSeleccionado && juegoSeleccionado.tipo === 'Juego De Cuestionario Rápido' && juegoSeleccionado.modalidad === 'Clásico';">
   <div>
-    <ion-list *ngIf ="contar" style="text-align:right">
-      <ion-label   style = "text-align: right; color: red; font-size: xx-large;">{{tiempoRestante}}</ion-label>    
+    <ion-list *ngIf ="contar" style="text-align:center; height: 45px;">
+      <ion-label   style = " color: red; font-size:xx-large;">{{tiempoRestante}}</ion-label>    
     </ion-list>
+
     <div *ngIf = "slideActual === 0">
       <button class = "siguiente" mat-raised-button  (click)="IniciarTimer(); next()">Empezar</button>
     </div>
@@ -35,7 +36,7 @@
   
  
   
-  <ion-slides  #slides (ionSlideWillChange)="doCheck()" >
+  <ion-slides  style = "margin-top: 18%;"  #slides (ionSlideWillChange)="doCheck()" >
     <ion-slide>
       <ion-list   style="text-align: center;">
         <label align = "center"><h1 style="color:rgb(109, 11, 19)"><strong>Datos del cuestionario</strong></h1></label>
@@ -59,12 +60,12 @@
    
       <ion-list style="text-align:center">
 
-        <div *ngIf ="item.pregunta.Tipo === 'Verdadero o falso'">
+        <div *ngIf ="item.pregunta.tipo === 'Verdadero o falso'">
     
           <label align = "center"><h1 style="color:rgb(109, 11, 19)"><strong>¿Verdadero o falso?</strong></h1></label>
           <br>
-          <img *ngIf = "item.pregunta.Imagen" style = "width: 250px; height: 250px" [src]="imagenesPreguntas[i]" >
-          <p style="font-size: 18px;">{{item.pregunta.Pregunta}}</p>
+          <img *ngIf = "item.pregunta.imagen" style = "width: 250px; height: 250px" [src]="imagenesPreguntas[i]" >
+          <p style="font-size: 18px;">{{item.pregunta.pregunta}}</p>
 
         
             <ion-radio-group allow-empty-selection="true" name="radio-group" #radioGroup1 (ionChange) = "MarcarVerdaderoOFalso($event, i)">
@@ -87,11 +88,11 @@
         
         </div>
         
-        <div *ngIf ="item.pregunta.Tipo === 'Cuatro opciones'">
+        <div *ngIf ="item.pregunta.tipo === 'Cuatro opciones'">
           <label align = "center"><h1 style="color:rgb(109, 11, 19)"><strong>Elije la opción correcta</strong></h1></label>
           <br>
-          <img *ngIf = "item.pregunta.Imagen" style = "width: 250px; height: 250px" [src]="imagenesPreguntas[i]" >
-          <p style="font-size: 18px;">{{item.pregunta.Pregunta}}</p>
+          <img *ngIf = "item.pregunta.imagen" style = "width: 250px; height: 250px" [src]="imagenesPreguntas[i]" >
+          <p style="font-size: 18px;">{{item.pregunta.pregunta}}</p>
           
           <ion-radio-group allow-empty-selection="true" name="radio-group" #radioGroup2 (ionChange) = "radioGroupChange($event, i)">
               <ion-item *ngFor="let respuesta of item.respuestas; let j = index"  (ionChange)="radioSelect($event, i, j)">
@@ -103,25 +104,25 @@
 
         </div>
          
-        <div *ngIf ="item.pregunta.Tipo === 'Respuesta abierta'">
+        <div *ngIf ="item.pregunta.tipo === 'Respuesta abierta'">
           <label align = "center"><h1 style="color:rgb(109, 11, 19)"><strong>Escribe tu respuesta</strong></h1></label>
           <br>
-          <img *ngIf = "item.pregunta.Imagen" style = "width: 250px; height: 250px" [src]="imagenesPreguntas[i]" >
-          <p style="font-size: 18px;">{{item.pregunta.Pregunta}}</p>
+          <img *ngIf = "item.pregunta.imagen" style = "width: 250px; height: 250px" [src]="imagenesPreguntas[i]" >
+          <p style="font-size: 18px;">{{item.pregunta.pregunta}}</p>
           <ion-input type="text" style = "color:rgb(38, 43, 105); font-size:x-large;" placeholder="Escribe tu respuesta aquí" requiered [(ngModel)]="RespuestasAlumno[i]"></ion-input>
         </div>
 
-        <div *ngIf ="item.pregunta.Tipo === 'Emparejamiento'">
+        <div *ngIf ="item.pregunta.tipo === 'Emparejamiento'">
           <label align = "center"><h1 style="color:rgb(109, 11, 19)"><strong>Forma las parejas correctas</strong></h1></label>
           <label align = "center" style="color:rgb(109, 11, 19);"><strong>arrastrando la parte derecha <br>hasta la posición que le toca</strong></label>
 
           <br>
           <img *ngIf = "item.pregunta.Imagen" style = "width: 250px; height: 250px" [src]="imagenesPreguntas[i]" >
-          <p style="font-size: 18px;">{{item.pregunta.Pregunta}}</p>
+          <p style="font-size: 18px;">{{item.pregunta.pregunta}}</p>
 
           <ion-item>
             <ion-list style = "width:40%">
-                <ion-item  *ngFor="let pareja of item.pregunta.Emparejamientos">
+                <ion-item  *ngFor="let pareja of item.pregunta.emparejamientos">
                   <ion-item lines = "none">
                     <ion-label  style = "font-size: small;">
                       {{pareja.l}}
@@ -181,20 +182,20 @@
      
        
           <ion-item *ngFor="let item of preguntasYRespuestas, let i = index">
-            <ion-list *ngIf = "item.pregunta.Tipo === 'Cuatro opciones' || item.pregunta.Tipo === 'Verdadero o falso' || item.pregunta.Tipo === 'Respuesta abierta'">
-              <ion-item lines = "none"><label style = "font-size: smaller;"><b>Pregunta {{i+1}}: </b>{{item.pregunta.Pregunta}}</label></ion-item>
-              <img *ngIf = "item.pregunta.Imagen" style = "width: 80px; height: 80px; margin-left: 10px;" [src]="imagenesPreguntas[i]" >
+            <ion-list *ngIf = "item.pregunta.tipo === 'Cuatro opciones' || item.pregunta.tipo === 'Verdadero o falso' || item.pregunta.tipo === 'Respuesta abierta'">
+              <ion-item lines = "none"><label style = "font-size: smaller;"><b>Pregunta {{i+1}}: </b>{{item.pregunta.pregunta}}</label></ion-item>
+              <img *ngIf = "item.pregunta.imagen" style = "width: 80px; height: 80px; margin-left: 10px;" [src]="imagenesPreguntas[i]" >
               <ion-item lines = "none"><label style = "font-size: smaller;"><b>Tu respuesta: </b>{{RespuestasAlumno[i]}}</label></ion-item>
-              <ion-item lines = "none"><label style = "font-size: smaller;"><b>Respuesta correcta: </b>{{item.pregunta.RespuestaCorrecta}}</label></ion-item>
+              <ion-item lines = "none"><label style = "font-size: smaller;"><b>Respuesta correcta: </b>{{item.pregunta.respuestaCorrecta}}</label></ion-item>
               <ion-item lines = "none"><label style = "font-size: smaller;"><b>Comentario: </b>{{feedbacks[i]}}</label></ion-item>
             </ion-list>
-            <ion-list *ngIf = "item.pregunta.Tipo === 'Emparejamiento'">
-              <ion-item lines = "none"><label style = "font-size: smaller;"><b>Pregunta {{i+1}}: </b>{{item.pregunta.Pregunta}}</label></ion-item>
-              <img *ngIf = "item.pregunta.Imagen" style = "width: 80px; height: 80px; margin-left: 10px;" [src]="imagenesPreguntas[i]" >
+            <ion-list *ngIf = "item.pregunta.tipo === 'Emparejamiento'">
+              <ion-item lines = "none"><label style = "font-size: smaller;"><b>Pregunta {{i+1}}: </b>{{item.pregunta.pregunta}}</label></ion-item>
+              <img *ngIf = "item.pregunta.imagen" style = "width: 80px; height: 80px; margin-left: 10px;" [src]="imagenesPreguntas[i]" >
               <ion-item lines = "none"><label style = "font-size: smaller;"><b>Tu respuesta: </b></label></ion-item>
               <ion-item *ngIf = "contestar[i]">
                 <ion-list>
-                    <ion-item  *ngFor="let pareja of item.pregunta.Emparejamientos; let j=index">
+                    <ion-item  *ngFor="let pareja of item.pregunta.emparejamientos; let j=index">
                       <ion-item lines = "none" style = "width: 50%">
                         <ion-label  style = "font-size: small;">
                           {{pareja.l}}
@@ -215,7 +216,7 @@
               <ion-item lines = "none"><label style = "font-size: smaller;"><b>Respuesta correcta: </b></label></ion-item>
               <ion-item>
                 <ion-list>
-                    <ion-item  *ngFor="let pareja of item.pregunta.Emparejamientos">
+                    <ion-item  *ngFor="let pareja of item.pregunta.emparejamientos">
                       <ion-item lines = "none" style = "width: 50%">
                         <ion-label  style = "font-size: small;">
                           {{pareja.l}}
@@ -246,7 +247,7 @@
 </ion-content>
 
 
-<ion-content *ngIf = "juegoSeleccionado && juegoSeleccionado.Tipo === 'Juego De Cuestionario Rápido' && juegoSeleccionado.Modalidad === 'Kahoot';">
+<ion-content *ngIf = "juegoSeleccionado && juegoSeleccionado.tipo === 'Juego De Cuestionario Rápido' && juegoSeleccionado.modalidad === 'Kahoot';">
   <div>
     <ion-list *ngIf ="contar" style="text-align:right">
       <ion-label   style = "text-align: right; color: red; font-size: xx-large;">{{tiempoRestante}}</ion-label>    
@@ -267,7 +268,7 @@
    
 
     
-    <ion-slides  #slides (ionSlideWillChange)="doCheck()" >
+    <ion-slides  style = "margin-top: 18%;" #slides (ionSlideWillChange)="doCheck()" >
       <!-- En el slide 0 hay información del juego -->
       <ion-slide>
         <ion-list   style="text-align: center;">
@@ -297,12 +298,12 @@
           <br>
   
 
-          <div *ngIf ="preguntaAMostrar.Tipo === 'Verdadero o falso'">
+          <div *ngIf ="preguntaAMostrar.tipo === 'Verdadero o falso'">
       
             <label align = "center"><h1 style="color:rgb(109, 11, 19)"><strong>¿Verdadero o falso?</strong></h1></label>
             <br>
-            <img *ngIf = "preguntaAMostrar.Imagen" style = "width: 250px; height: 250px" [src]="imagenPreguntaAMostrar" >
-            <p style="font-size: 18px;">{{preguntaAMostrar.Pregunta}}</p>
+            <img *ngIf = "preguntaAMostrar.imagen" style = "width: 250px; height: 250px" [src]="imagenPreguntaAMostrar" >
+            <p style="font-size: 18px;">{{preguntaAMostrar.pregunta}}</p>
             <div class = "enColumna">
               <div class = "enFila" style = "width: 80%">
                 <div (click) = "GuardarRespuesta ('falso')" class = "opcion rojo"><p>Falso</p></div>
@@ -312,11 +313,11 @@
 
           </div>
           
-          <div *ngIf ="preguntaAMostrar.Tipo === 'Cuatro opciones'">
+          <div *ngIf ="preguntaAMostrar.tipo === 'Cuatro opciones'">
             <label align = "center"><h1 style="color:rgb(109, 11, 19)"><strong>Elije la opción correcta</strong></h1></label>
             <br>
-            <img *ngIf = "preguntaAMostrar.Imagen" style = "width: 250px; height: 250px" [src]="imagenPreguntaAMostrar" >
-            <p style="font-size: 18px;">{{preguntaAMostrar.Pregunta}}</p>
+            <img *ngIf = "preguntaAMostrar.imagen" style = "width: 250px; height: 250px" [src]="imagenPreguntaAMostrar" >
+            <p style="font-size: 18px;">{{preguntaAMostrar.pregunta}}</p>
             <div class = "enColumna">
               <div class = "enFila" style = "width: 80%">
                 <div (click) = "GuardarRespuesta (opcionesDesordenadas[0])" class = "opcion rojo"><p>{{opcionesDesordenadas[0]}}</p></div>
@@ -330,11 +331,11 @@
     
           </div>
           
-          <div *ngIf ="preguntaAMostrar.Tipo === 'Respuesta abierta'">
+          <div *ngIf ="preguntaAMostrar.tipo === 'Respuesta abierta'">
             <label align = "center"><h1 style="color:rgb(109, 11, 19)"><strong>Escribe tu respuesta</strong></h1></label>
             <br>
-            <img *ngIf = "preguntaAMostrar.Imagen" style = "width: 250px; height: 250px" [src]="imagenPreguntaAMostrar" >
-            <p style="font-size: 18px;">{{preguntaAMostrar.Pregunta}}</p>
+            <img *ngIf = "preguntaAMostrar.imagen" style = "width: 250px; height: 250px" [src]="imagenPreguntaAMostrar" >
+            <p style="font-size: 18px;">{{preguntaAMostrar.pregunta}}</p>
             <ion-input type="text" style = "color:rgb(38, 43, 105); font-size:x-large;" placeholder="Escribe tu respuesta aquí" requiered [(ngModel)]="RespuestasAlumno[0]"></ion-input> 
             <br>
             <br>
@@ -342,17 +343,17 @@
             <button class="enviarRespuestaKahoot"  (click) = "CalcularPuntosYEnviar();">Enviar respuesta</button>
           </div>
 
-          <div *ngIf ="preguntaAMostrar.Tipo === 'Emparejamiento'">
+          <div *ngIf ="preguntaAMostrar.tipo === 'Emparejamiento'">
             <label align = "center"><h1 style="color:rgb(109, 11, 19)"><strong>Forma las parejas correctas</strong></h1></label>
             <label align = "center" style="color:rgb(109, 11, 19);"><strong>arrastrando la parte derecha <br>hasta la posición que le toca</strong></label>
 
             <br>
-            <img *ngIf = "preguntaAMostrar.Imagen" style = "width: 250px; height: 250px" [src]="imagenPreguntaAMostrar" >
-            <p style="font-size: 18px;">{{preguntaAMostrar.Pregunta}}</p>
+            <img *ngIf = "preguntaAMostrar.imagen" style = "width: 250px; height: 250px" [src]="imagenPreguntaAMostrar" >
+            <p style="font-size: 18px;">{{preguntaAMostrar.pregunta}}</p>
 
             <ion-item>
               <ion-list style = "width:40%">
-                  <ion-item  *ngFor="let pareja of preguntaAMostrar.Emparejamientos">
+                  <ion-item  *ngFor="let pareja of preguntaAMostrar.emparejamientos">
                     <ion-item lines = "none">
                       <ion-label  style = "font-size: small;">
                         {{pareja.l}}
@@ -447,20 +448,20 @@
           <label align = "center"><h1 style="color:rgb(109, 11, 19)"><strong>Tus respuestas</strong></h1></label>
 
             <ion-item *ngFor="let pregunta of PreguntasCuestionario, let i = index">
-              <ion-list *ngIf = "pregunta.Tipo === 'Cuatro opciones' || pregunta.Tipo === 'Verdadero o falso' || pregunta.Tipo === 'Respuesta abierta'">
-                <ion-item lines = "none"><label style = "font-size: smaller;"><b>Pregunta {{i+1}}: </b>{{pregunta.Pregunta}}</label></ion-item>
-                <img *ngIf = "pregunta.Imagen" style = "width: 80px; height: 80px; margin-left: 10px;" [src]="imagenesPreguntas[i]" >
+              <ion-list *ngIf = "pregunta.tipo === 'Cuatro opciones' || pregunta.tipo === 'Verdadero o falso' || pregunta.tipo === 'Respuesta abierta'">
+                <ion-item lines = "none"><label style = "font-size: smaller;"><b>Pregunta {{i+1}}: </b>{{pregunta.pregunta}}</label></ion-item>
+                <img *ngIf = "pregunta.imagen" style = "width: 80px; height: 80px; margin-left: 10px;" [src]="imagenesPreguntas[i]" >
                 <ion-item lines = "none"><label style = "font-size: smaller;"><b>Tu respuesta: </b>{{respuestasKahoot[i][0]}}</label></ion-item>
                 <ion-item lines = "none"><label style = "font-size: smaller;"><b>Respuesta correcta: </b>{{pregunta.RespuestaCorrecta}}</label></ion-item>
                 <ion-item lines = "none"><label style = "font-size: smaller;"><b>Comentario: </b>{{feedbacks[i]}}</label></ion-item>
               </ion-list>
-              <ion-list *ngIf = "pregunta.Tipo === 'Emparejamiento'">
-                <ion-item lines = "none"><label style = "font-size: smaller;"><b>Pregunta {{i+1}}: </b>{{pregunta.Pregunta}}</label></ion-item>
-                <img *ngIf = "pregunta.Imagen" style = "width: 80px; height: 80px; margin-left: 10px;" [src]="imagenesPreguntas[i]" >
+              <ion-list *ngIf = "pregunta.tipo === 'Emparejamiento'">
+                <ion-item lines = "none"><label style = "font-size: smaller;"><b>Pregunta {{i+1}}: </b>{{pregunta.pregunta}}</label></ion-item>
+                <img *ngIf = "pregunta.imagen" style = "width: 80px; height: 80px; margin-left: 10px;" [src]="imagenesPreguntas[i]" >
                 <ion-item lines = "none"><label style = "font-size: smaller;"><b>Tu respuesta: </b></label></ion-item>
                 <ion-item *ngIf = "contestar[i]">
                   <ion-list>
-                      <ion-item  *ngFor="let pareja of pregunta.Emparejamientos; let j=index">
+                      <ion-item  *ngFor="let pareja of pregunta.emparejamientos; let j=index">
                         <ion-item lines = "none" style = "width: 50%">
                           <ion-label  style = "font-size: small;">
                             {{pareja.l}}
@@ -482,7 +483,7 @@
                 <ion-item lines = "none"><label style = "font-size: smaller;"><b>Respuesta correcta: </b></label></ion-item>
                 <ion-item>
                   <ion-list>
-                      <ion-item  *ngFor="let pareja of pregunta.Emparejamientos">
+                      <ion-item  *ngFor="let pareja of pregunta.emparejamientos">
                         <ion-item lines = "none" style = "width: 50%">
                           <ion-label  style = "font-size: small;">
                             {{pareja.l}}

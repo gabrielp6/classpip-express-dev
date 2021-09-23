@@ -11,9 +11,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
 
-import { Camera } from '@ionic-native/camera/ngx';
+
 //import { Camera, CameraOptions } from '@ionic-native/camera';
-import { File } from '@ionic-native/file/ngx';
+
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { MatStepperModule } from '@angular/material/stepper';
@@ -35,7 +35,7 @@ import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 
 const config: SocketIoConfig = { url: URL.Servidor, options: {} };
 
-import { Geolocation } from '@ionic-native/geolocation/ngx';
+
 // import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer/ngx';
 // import { Transfer } from '@ionic-native/transfer';
 import { Media } from '@ionic-native/media/ngx';
@@ -70,9 +70,7 @@ import {DatePipe} from '@angular/common';
   providers: [
     StatusBar,
     SplashScreen,
-    Camera,
-    File,
-    Geolocation,
+
     WheelSelector,
     LocalNotifications,
     DatePipe,

@@ -58,6 +58,13 @@ export class ComServerService {
     this.servidor.disconnect();
   }
 
+  public EsperoConfirmacionNickValido(): any {
+    return Observable.create((observer) => {
+        this.servidor.on('confirmacion nick', (mensaje) => {
+            observer.next(mensaje);
+        });
+    });
+  }
 
   public EsperarNotificaciones(): any {
     return Observable.create((observer) => {

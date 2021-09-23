@@ -30,7 +30,7 @@ export class JuegoCogerTurnoRapidoPage implements OnInit {
 
   ngOnInit() {
     this.juegoSeleccionado = this.sesion.DameJuego();
-    this.listaOpciones = this.juegoSeleccionado.Turnos.filter (opcion => opcion.persona === undefined && opcion.dia !== '*');
+    this.listaOpciones = this.juegoSeleccionado.turnos.filter (opcion => opcion.persona === undefined && opcion.dia !== '*');
     // esta es la opción para indicar que ningun turno me va bien
     this.listaOpciones.push ( {
       persona: undefined,
@@ -96,7 +96,7 @@ export class JuegoCogerTurnoRapidoPage implements OnInit {
                         this.comServer.Emitir ('turnoElegido',
                           { nick: this.nickName,
                             turno: turnoElegido,
-                            clave: this.juegoSeleccionado.Clave
+                            clave: this.juegoSeleccionado.clave
                           }
                         );
                         const confirm2 = await this.alertCtrl.create({
@@ -107,7 +107,7 @@ export class JuegoCogerTurnoRapidoPage implements OnInit {
                                         text: 'OK',
                                         role: 'cancel',
                                         handler: () => {
-                                          this.comServer.DesconectarJuegoCogerTurnoRapido(this.juegoSeleccionado.Clave);
+                                          this.comServer.DesconectarJuegoCogerTurnoRapido(this.juegoSeleccionado.clave);
                                           this.route.navigateByUrl('/home');
                                         }
                                       }
@@ -131,7 +131,7 @@ export class JuegoCogerTurnoRapidoPage implements OnInit {
                       this.comServer.Emitir ('turnoElegido',
                         { nick: this.nickName,
                           turno: turnoElegido,
-                          clave: this.juegoSeleccionado.Clave
+                          clave: this.juegoSeleccionado.clave
                         }
                       );
                       const confirm2 = await this.alertCtrl.create({
@@ -142,7 +142,7 @@ export class JuegoCogerTurnoRapidoPage implements OnInit {
                                       text: 'OK',
                                       role: 'cancel',
                                       handler: () => {
-                                        this.comServer.DesconectarJuegoCogerTurnoRapido(this.juegoSeleccionado.Clave);
+                                        this.comServer.DesconectarJuegoCogerTurnoRapido(this.juegoSeleccionado.clave);
                                         this.route.navigateByUrl('/home');
                                       }
                                     }

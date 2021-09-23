@@ -33,6 +33,47 @@ USUARIO 3 POSIBLES PLANTILLAS ENTRE LAS QUE ESCOGER */
 
 /* BOTONES PARA AVANZAR Y RETROCEDAR EN SLIDES Y STEPPERS */
 
+// .siguiente {
+//   background-color: rgb(11, 72, 100);
+//   color: white;
+//   font-size: 14px;
+//   padding: 10px;
+//   border-radius: 50px;
+//   position: absolute;
+//   right: 25px;
+//   width: 80px;
+//   height: 45px;
+//   top: 25px;
+// }
+
+
+// .siguienteDisabled {
+//   background-color: rgb(11, 72, 100);
+//   color: white;
+//   font-size: 14px;
+//   padding: 10px;
+//   border-radius: 50px;
+//   position: absolute;
+//   right: 25px;
+//   width: 80px;
+//   height: 45px;
+//   top: 25px;
+//   opacity: 0.5;
+// }
+
+// .anterior {
+//   background-color: white;
+//   color:rgb(11, 72, 100);
+//   border: 2px solid rgb(11, 72, 100);
+//   font-size: 14px;
+//   padding: 10px;
+//   border-radius: 50px;
+//   position: absolute;
+//   left: 25px;
+//   width: 80px;
+//   height: 45px;
+//   top: 25px
+// }
 
 .siguiente {
   background-color: rgb(11, 72, 100);
@@ -43,7 +84,7 @@ USUARIO 3 POSIBLES PLANTILLAS ENTRE LAS QUE ESCOGER */
   position: absolute;
   right: 25px; 
   width: 100px;
-  bottom: 10px;
+  top: 25px
 }
 
 
@@ -56,8 +97,8 @@ USUARIO 3 POSIBLES PLANTILLAS ENTRE LAS QUE ESCOGER */
   position: absolute;
   right: 25px; 
   width: 100px;
-  bottom: 10px;
-  opacity: 0.5;
+  top: 25px;
+  opacity: 0.5
 }
 
 .anterior {
@@ -70,7 +111,7 @@ USUARIO 3 POSIBLES PLANTILLAS ENTRE LAS QUE ESCOGER */
   position: absolute;
   left: 25px; 
   width: 100px;
-  bottom: 10px
+  top: 25px
 }
 /* BOTONES GENERALES */
 .ranking-btn {

@@ -37,6 +37,7 @@ export class JuegoCuestionarioSatisfaccionPage implements OnInit {
   indiceAnterior = 0;
 
 
+
   @ViewChild(MatStepper, { static: false }) stepper: MatStepper;
   @ViewChild(IonSlides, { static: false }) slides: IonSlides;
 
@@ -59,34 +60,34 @@ export class JuegoCuestionarioSatisfaccionPage implements OnInit {
       console.log ('ya tengo cuestionario');
       console.log (this.cuestionarioSatisfaccion);
     });
-    if (this.juegoSeleccionado.tipo === 'Juego De Cuestionario de Satisfacción') {
-      this.alumno = this.sesion.DameAlumno();
-      console.log ('Ya tengo el juego');
-      console.log (this.juegoSeleccionado);
+    // if (this.juegoSeleccionado.tipo === 'Juego De Cuestionario de Satisfacción') {
+    //   this.alumno = this.sesion.DameAlumno();
+    //   console.log ('Ya tengo el juego');
+    //   console.log (this.juegoSeleccionado);
 
-      // Traigo la inscripción del alumno
-      this.peticionesAPI.DameInscripcionAlumnoJuegoDeCuestionarioSatisfaccion(this.juegoSeleccionado.id, this.alumno.id)
-      .subscribe (inscripcion => {
-          this.inscripcionAlumnoJuegoDeCuestionarioSatisfaccion = inscripcion[0];
-          console.log ('ya tengo la inscripcion');
-          console.log (this.inscripcionAlumnoJuegoDeCuestionarioSatisfaccion);
-          if (!this.inscripcionAlumnoJuegoDeCuestionarioSatisfaccion.contestado) {
-            this.inscripcionAlumnoJuegoDeCuestionarioSatisfaccion.respuestasAfirmaciones = [];
-            this.inscripcionAlumnoJuegoDeCuestionarioSatisfaccion.respuestasPreguntasAbiertas = [];
-          }
+    //   // Traigo la inscripción del alumno
+    //   this.peticionesAPI.DameInscripcionAlumnoJuegoDeCuestionarioSatisfaccion(this.juegoSeleccionado.id, this.alumno.id)
+    //   .subscribe (inscripcion => {
+    //       this.inscripcionAlumnoJuegoDeCuestionarioSatisfaccion = inscripcion[0];
+    //       console.log ('ya tengo la inscripcion');
+    //       console.log (this.inscripcionAlumnoJuegoDeCuestionarioSatisfaccion);
+    //       if (!this.inscripcionAlumnoJuegoDeCuestionarioSatisfaccion.contestado) {
+    //         this.inscripcionAlumnoJuegoDeCuestionarioSatisfaccion.respuestasAfirmaciones = [];
+    //         this.inscripcionAlumnoJuegoDeCuestionarioSatisfaccion.respuestasPreguntasAbiertas = [];
+    //       }
 
-      });
-    } else {
-      this.nickName = this.sesion.DameNickName();
-      this.encuestaRapida = true;
-      this.inscripcionAlumnoJuegoDeCuestionarioSatisfaccion = new AlumnoJuegoDeCuestionarioSatisfaccion (
+    //   });
+    // } else {
+    this.nickName = this.sesion.DameNickName();
+    this.encuestaRapida = true;
+    this.inscripcionAlumnoJuegoDeCuestionarioSatisfaccion = new AlumnoJuegoDeCuestionarioSatisfaccion (
         false,
         this.juegoSeleccionado.id,
         0
       );
-      this.inscripcionAlumnoJuegoDeCuestionarioSatisfaccion.respuestasAfirmaciones = [];
-      this.inscripcionAlumnoJuegoDeCuestionarioSatisfaccion.respuestasPreguntasAbiertas = [];
-    }
+    this.inscripcionAlumnoJuegoDeCuestionarioSatisfaccion.respuestasAfirmaciones = [];
+    this.inscripcionAlumnoJuegoDeCuestionarioSatisfaccion.respuestasPreguntasAbiertas = [];
+    // }
   }
 
   Avanzar (indice: number) {
@@ -136,6 +137,7 @@ export class JuegoCuestionarioSatisfaccionPage implements OnInit {
   async next() {
     // const indice = await this.slides.getActiveIndex();
     // this.Avanzar (indice);
+    this.empezado = true;
     this.slides.slideNext();
   }
 
@@ -163,10 +165,21 @@ export class JuegoCuestionarioSatisfaccionPage implements OnInit {
   async EnviarRespuesta() {
     console.log ('voy a enviar respuesta');
     console.log (this.inscripcionAlumnoJuegoDeCuestionarioSatisfaccion);
+
+    // El Dash espera los campos de la inscripción empezando por mayuscula
+    const inscripcionArreglada = {
+      Contestado: this.inscripcionAlumnoJuegoDeCuestionarioSatisfaccion.contestado,
+      RespuestasAfirmaciones: this.inscripcionAlumnoJuegoDeCuestionarioSatisfaccion.respuestasAfirmaciones,
+      RespuestasPreguntasAbiertas: this.inscripcionAlumnoJuegoDeCuestionarioSatisfaccion.respuestasPreguntasAbiertas,
+      id: this.inscripcionAlumnoJuegoDeCuestionarioSatisfaccion.id,
+      alumnoId: this.inscripcionAlumnoJuegoDeCuestionarioSatisfaccion.alumnoId,
+      juegoDeCuestionarioSatisfaccionId: this.inscripcionAlumnoJuegoDeCuestionarioSatisfaccion.juegoDeCuestionarioSatisfaccionId
+
+    }
     this.comServer.Emitir ('respuestaEncuestaRapida',
-      { clave: this.juegoSeleccionado.Clave,
+      { clave: this.juegoSeleccionado.clave,
         nick: this.nickName,
-        respuestas: this.inscripcionAlumnoJuegoDeCuestionarioSatisfaccion
+        respuestas: inscripcionArreglada
       }
     );
     // Ahora añado la respuesta a los datos del juego para guardarlo en la base de datos
@@ -200,28 +213,28 @@ export class JuegoCuestionarioSatisfaccionPage implements OnInit {
     this.route.navigateByUrl('/home');
   }
 
-  Registrar() {
-    console.log ('voy a registrar');
-    console.log (this.inscripcionAlumnoJuegoDeCuestionarioSatisfaccion);
-    this.inscripcionAlumnoJuegoDeCuestionarioSatisfaccion.contestado = true;
-    this.peticionesAPI.ModificaInscripcionAlumnoJuegoDeCuestionarioSatisfaccion (this.inscripcionAlumnoJuegoDeCuestionarioSatisfaccion)
-    .subscribe (async () => {
-      const confirm = await this.alertCtrl.create({
-        header: 'Respuestas registradas con éxito',
-        message: 'Gracias por contestar la encuesta',
-        buttons: [
-            {
-            text: 'OK',
-            role: 'cancel',
-            handler: () => {
-            }
-          }
-        ]
-      });
-      await confirm.present();
-    });
+  // Registrar() {
+  //   console.log ('voy a registrar');
+  //   console.log (this.inscripcionAlumnoJuegoDeCuestionarioSatisfaccion);
+  //   this.inscripcionAlumnoJuegoDeCuestionarioSatisfaccion.contestado = true;
+  //   this.peticionesAPI.ModificaInscripcionAlumnoJuegoDeCuestionarioSatisfaccion (this.inscripcionAlumnoJuegoDeCuestionarioSatisfaccion)
+  //   .subscribe (async () => {
+  //     const confirm = await this.alertCtrl.create({
+  //       header: 'Respuestas registradas con éxito',
+  //       message: 'Gracias por contestar la encuesta',
+  //       buttons: [
+  //           {
+  //           text: 'OK',
+  //           role: 'cancel',
+  //           handler: () => {
+  //           }
+  //         }
+  //       ]
+  //     });
+  //     await confirm.present();
+  //   });
 
-  }
+  // }
   // GuardaRespuesta (i : number) {
   //   console.log ('La respuesta para la pregunta ' + i + ' es ' + this.RespuestaElegida);
   //   this.inscripcionAlumnoJuegoDeCuestionarioSatisfaccion.RespuestasAfirmaciones[i] = Number (this.RespuestaElegida);
