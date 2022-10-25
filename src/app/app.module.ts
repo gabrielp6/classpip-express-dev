@@ -45,7 +45,7 @@ import { IonicGestureConfig } from '../ionicGestureConfig';
 import { WheelSelector } from '@ionic-native/wheel-selector/ngx';
 
 import { DateAdapter } from '@angular/material/core';
-import { CustomDateAdapter } from './CustomDataAdapter';
+import { CustomDateAdapter } from './customDataAdapter';
 import {DatePipe} from '@angular/common';
 
 @NgModule({
