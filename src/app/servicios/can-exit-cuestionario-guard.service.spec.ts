@@ -6,7 +6,7 @@ describe('CanExitCuestionarioGuardService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: CanExitCuestionarioGuardService = TestBed.get(CanExitCuestionarioGuardService);
+    const service: CanExitCuestionarioGuardService = TestBed.inject(CanExitCuestionarioGuardService);
     expect(service).toBeTruthy();
   });
 });
