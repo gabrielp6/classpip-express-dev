@@ -5,8 +5,11 @@ al componente que lo pide, y viceversa
 */
 
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { from, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { Http, HttpOptions } from '@capacitor-community/http';
+
+
 import { Alumno, JuegoDeEncuestaRapida, AlumnoJuegoDeCuestionarioSatisfaccion, CuestionarioSatisfaccion } from '../clases';
 import { AlumnoJuegoDeCuestionario } from '../clases/AlumnoJuegoDeCuestionario';
 import { Cuestionario } from '../clases/Cuestionario';
@@ -38,20 +41,29 @@ export class PeticionesAPIService {
     private http: HttpClient,
   ) { }
 
+/*
+  public DameJuegoDeCogerTurnoRapidoo (clave: string) {
+    const options: HttpOptions = { url:'https://meowfacts.herokuapp.com/?count=3+', };
+    return from(Http.get(options));
+
+  }
+*/
 
   public DameJuegoDeCogerTurnoRapidoo (clave: string): Observable<any> {
     return this.http.get<any>(this.APIUrlJuegoDeCogerTurnoRapido
     + '?filter[where][Clave]=' + clave);
   }
-
   
   public  DameJuegoDeCogerTurnoRapido (clave: string): Observable<any> {
-    const juegoObservable: Observable<any> = new Observable( obs => {
-      this.http.get<any>(this.APIUrlJuegoDeCogerTurnoRapido
-        + '?filter[where][Clave]=' + clave)
+    //const juegoObservable: Observable<any> = new Observable( obs => {
+      //this.DameJuegoDeCogerTurnoRapidoo(clave)
+      const juegoObservable: Observable<any> = new Observable( obs => {
+        this.http.get<any>(this.APIUrlJuegoDeCogerTurnoRapido
+          + '?filter[where][Clave]=' + clave)    
       .subscribe (res => {
         let juegoArreglado;
-        if (res.length === 0) {
+        if (res == null) {
+          //o undefined
           juegoArreglado = undefined;
         } else {
           const juego = res[0];
