@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { SesionService, PeticionesAPIService } from '../servicios';
+import { SesionService, PeticionesAPIService } from '../servicios/index'; // "/index" puesto a mano
 import { NavController, AlertController, Platform, IonSlides } from '@ionic/angular';
 import { CalculosService, ComServerService } from '../servicios';
 import { Alumno, TablaAlumnoJuegoDeCuestionario } from '../clases';
@@ -9,11 +9,11 @@ import { AlumnoJuegoDeCuestionario } from '../clases/AlumnoJuegoDeCuestionario';
 import { Router } from '@angular/router';
 import { MiAlumnoAMostrarJuegoDeCuestionario } from '../clases/MiAlumnoAMostrarJuegoDeCuestionario';
 import { RespuestaJuegoDeCuestionario } from '../clases/RespuestaJuegoDeCuestionario';
-import {MatStepper} from '@angular/material';
+import {MatStepper} from '@angular/material/stepper';
 
 import * as URL from '../URLs/urls';
 import { Observable } from 'rxjs';
-import { CDK_CONNECTED_OVERLAY_SCROLL_STRATEGY_FACTORY } from '@angular/cdk/overlay/typings/overlay-directives';
+//import { CDK_CONNECTED_OVERLAY_SCROLL_STRATEGY_FACTORY } from '@angular/cdk/overlay/overlay-directives';
 
 
 

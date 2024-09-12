@@ -6,7 +6,7 @@ describe('ComServerService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: ComServerService = TestBed.get(ComServerService);
+    const service: ComServerService = TestBed.inject(ComServerService);
     expect(service).toBeTruthy();
   });
 });

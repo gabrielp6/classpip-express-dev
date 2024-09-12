@@ -23,7 +23,7 @@ export class HomePage {
     async AutentificarJuegoRapido() {
         console.log ('Juego rapido ' + this.clave + ' ' + this.nickname);
         console.log ('voy a por el juego de encuesta rapida');
-        this.peticionesAPI.DameJuegoDeEncuestaRapida (this.clave)
+        /*this.peticionesAPI.DameJuegoDeEncuestaRapida (this.clave)
         .subscribe (async juego => {
           console.log ('este es el juego que ha llegado ', juego);
           if (juego !== undefined) {
@@ -102,7 +102,7 @@ export class HomePage {
                     });
                   } else {
                     console.log ('voy a por el juego de coger turno rapido');
-                    this.peticionesAPI.DameJuegoDeCogerTurnoRapido (this.clave)
+                    */this.peticionesAPI.DameJuegoDeCogerTurnoRapido (this.clave)
                     .subscribe ( async juego => {
                       console.log ('este es el juego que ha llegado ', juego);
                       if (juego !== undefined) {
@@ -141,13 +141,13 @@ export class HomePage {
                       }
                     });
                   }
-                });
+                }/*);
               }
             });
           }
         });
     }
 }
-
+*/
 
 
